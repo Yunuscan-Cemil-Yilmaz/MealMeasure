@@ -1,0 +1,7 @@
+{
+  "name": "mobile-meal-measure",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
