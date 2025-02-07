@@ -1,1 +1,113 @@
-/* You can add global styles to this file, and also import other style files */
+@mixin clearfix() {
+    &::after {
+      content: "";
+      display: table;
+      clear: both;
+    }
+}
+
+@mixin respond-to($breakpoint) {
+    @if $breakpoint == sm {
+      @media (min-width: $breakpoint-sm) { @content; }
+    } @else if $breakpoint == md {
+      @media (min-width: $breakpoint-md) { @content; }
+    } @else if $breakpoint == lg {
+      @media (min-width: $breakpoint-lg) { @content; }
+    } @else if $breakpoint == xl {
+      @media (min-width: $breakpoint-xl) { @content; }
+    } @else if $breakpoint == xxl {
+      @media (min-width: $breakpoint-xxl) { @content; }
+    }
+}
+
+@mixin spacing($property, $scale-key) {
+    #{$property}: map-get($spacing-scale, $scale-key);
+ }
+  
+
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+  
+
+@mixin fade-in($duration: $transition-duration) {
+    animation: fadeIn $duration $easing-default;
+}
+  
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  font-family: $font-family-base;
+  font-size: $font-size-base;
+  line-height: $line-height-base;
+  color: $text-color-base;
+  background-color: $background-body;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: $font-family-heading;
+  line-height: $line-height-heading;
+  margin-bottom: $heading-margin-bottom;
+  color: $text-color-base;
+}
+p {
+  margin-bottom: $paragraph-margin-bottom;
+}
+
+
+a {
+  color: $color-primary;
+  text-decoration: none;
+  transition: color $transition-duration $transition-timing;
+  cursor: pointer;
+  &:hover,
+  &:focus {
+    // color: $color-primary-dark;
+    text-decoration: underline;
+  }
+}
+
+
+html {
+  font-size: 12px; // 1 rem = 12px
+}
+
+@media (min-width: 576px) {
+  html {
+    font-size: 13px; // 1 rem = 13px
+  }
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 14px; // 1 rem = 14px
+  }
+}
+
+@media (min-width: 992px) {
+  html {
+    font-size: 15px; // 1 rem = 15px
+  }
+}
+
+@media (min-width: 1200px) {
+  html {
+    font-size: 16px; // 1 rem = 16px
+  }
+}

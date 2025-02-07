@@ -1,0 +1,37 @@
+@each $key, $value in $spacing-scale {
+    .m-#{$key} { margin: $value !important; }
+    .mt-#{$key} { margin-top: $value !important; }
+    .mb-#{$key} { margin-bottom: $value !important; }
+    .ml-#{$key} { margin-left: $value !important; }
+    .mr-#{$key} { margin-right: $value !important; }
+  
+    .p-#{$key} { padding: $value !important; }
+    .pt-#{$key} { padding-top: $value !important; }
+    .pb-#{$key} { padding-bottom: $value !important; }
+    .pl-#{$key} { padding-left: $value !important; }
+    .pr-#{$key} { padding-right: $value !important; }
+  }
+  
+  /* Shado */
+  .shadow-sm { box-shadow: $box-shadow-sm !important; }
+  .shadow { box-shadow: $box-shadow !important; }
+  .shadow-lg { box-shadow: $box-shadow-lg !important; }
+  
+  /* Z-index */
+  .zindex-dropdown { z-index: $zindex-dropdown !important; }
+  .zindex-sticky { z-index: $zindex-sticky !important; }
+  .zindex-fixed { z-index: $zindex-fixed !important; }
+  .zindex-modal-backdrop { z-index: $zindex-modal-backdrop !important; }
+  .zindex-modal { z-index: $zindex-modal !important; }
+  .zindex-popover { z-index: $zindex-popover !important; }
+  .zindex-tooltip { z-index: $zindex-tooltip !important; }
+  
+  .text-center { text-align: center !important; }
+  .text-right { text-align: right !important; }
+  .text-left { text-align: left !important; }
+  
+  .transition { transition: $transition; }
+  
+  .truncate { @include text-truncate; }
+  
+  .fade-in { @include fade-in(0.5s); }

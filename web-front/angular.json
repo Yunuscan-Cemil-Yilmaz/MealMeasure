@@ -28,7 +28,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles.veriables.scss",
+              "styles.utilities.scss"
             ],
             "scripts": []
           },
@@ -96,7 +98,9 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "src/styles.veriables.scss",
+              "styles.utilities.scss"
             ],
             "scripts": []
           }
