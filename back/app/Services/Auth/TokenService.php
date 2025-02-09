@@ -1,0 +1,167 @@
+<?php
+
+namespace App\Services\Auth;
+
+use App\Models\Auth\UserToken;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+
+class TokenService
+{
+    public function __construct() {  }
+
+    private function createToken($userId, $userEmail): bool{
+        $token = Str::random(64);
+        try{
+            UserToken::create([
+                'user_id' => $userId,
+                'user_email' => $userEmail,
+                'token' => $token
+            ]);
+
+            return true;
+        }catch(QueryException $e){
+            return false;
+        }
+    }
+
+    private function createLongTermToken($userId, $userEmail): bool{
+        $addHourAmount = 24;
+        $token = Str::random(64);
+        try{
+            UserToken::create([
+                'user_id' => $userId,
+                'user_email' => $userEmail,
+                'token' => $token,
+                'end_date' => now()->addHour($addHourAmount)
+            ]);
+        }catch(QueryException $e){
+            return false;
+        }
+    }
+
+    private function validateToken($token, $userId, $userEmail): bool{
+        try{
+            $tokenExists = DB::selectOne(
+                "SELECT *
+                FROM user_token
+                WHERE user_id = :userId
+                AND user_email = :userEmail
+                AND token = ':token'
+                AND created_at <= NOW()
+                AND end_date > NOW()
+                LIMIT 1",
+                [
+                    'userId' => $userId,
+                    'userEmail' => $userEmail,
+                    'token' => $token
+                ]
+            );
+
+            if($tokenExists->end_date > now()){
+                return true;
+            }else { 
+                DB::delete(
+                    "DELETE FROM user_token
+                    WHERE token = :token 
+                    AND user_id = :userId
+                    AND user_email = :userEmail",
+                    [
+                        'userId' => $tokenExists->user_id,
+                        'userEmail' => $tokenExists->user_email,
+                        'token' => $tokenExists->token
+                    ]
+                );
+                return false;
+            }
+        }catch(QueryException $e){
+            return false;
+        }
+    }
+
+    private function validateAdminToken($token, $userId, $userEmail): bool{
+        $valideToken = $this->validateToken($token, $userId, $userEmail);
+        if(!$valideToken){
+            return false;
+        }
+        $isAdmin = DB::selectOne("SELECT is_admin FROM users WHERE user_id = :userId LIMIT 1",[ 'userId' => $userId ]);
+        if(!$isAdmin){
+            return false;
+        }
+
+        return true;
+    }
+
+    public function createUserToken($userId, $userEmail, bool $longTerm){
+        try{
+            if($longTerm){
+                $checkProcess = $this->createLongTermToken($userId, $userEmail);
+                if($checkProcess){
+                    return response()->json([
+                        'result' => 'success',
+                        'description' => 'token created'
+                    ]);
+                }else{
+                    return response()->json([
+                        'result' => 'error',
+                        'description' => 'token cant created'
+                    ]);
+                }
+            }else {
+                $checkProcess = $this->createToken($userId, $userEmail);
+                if($checkProcess){
+                    return response()->json([
+                        'result' => 'success',
+                        'description' => 'token created'
+                    ]);
+                }else{
+                    return response()->json([
+                        'result' => 'error',
+                        'description' => 'token cant created'
+                    ]);
+                }
+            }
+        }catch(QueryException $e){
+            return false;
+        }
+    }
+
+    public function checkUserToken($token, $userId, $userEmail){
+        $checkToken = $this->validateToken($token, $userId, $userEmail);
+        if($checkToken){
+            return response()->json([
+                'result' => 'success',
+                'description' => 'valid token'
+            ]);
+        }else {
+            return response()->json([
+                'result' => 'error',
+                'description' => 'invalid token'
+            ]);
+        }
+    }
+
+    public function checkAdminToken($token, $userId, $userEmail){
+        $checkToken = $this->validateAdminToken($token, $userId, $userEmail);
+        if($checkToken){
+            return response()->json([
+                'result' => 'success',
+                'description' => 'valid token'
+            ]);
+        }else {
+            return response()->json([
+                'result' => 'error',
+                'description' => 'invalid token'
+            ]);
+        }
+    }
+
+    public function deleteToken($token): bool{
+        try{
+            return UserToken::where('token', $token)->delete() > 0;
+        }catch(QueryException $e){
+            return false;
+        }
+    }
+}
