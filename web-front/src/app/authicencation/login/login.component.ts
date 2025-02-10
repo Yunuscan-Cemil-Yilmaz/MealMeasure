@@ -16,10 +16,14 @@ export class LoginComponent implements OnInit {
 
   togglePasswordVisibility() {
     this.isPasswordVisible = !this.isPasswordVisible;
-    const passwordInput = document.getElementById('password') as HTMLInputElement;
+    const passwordInput = document.querySelector('.login-password-input') as HTMLInputElement;
     if (passwordInput) {
       passwordInput.type = this.isPasswordVisible ? 'text' : 'password';
     }
+  }
+
+  clickTry(){
+    console.log("deneme");
   }
 
 }
