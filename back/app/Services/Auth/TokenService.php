@@ -11,33 +11,49 @@ class TokenService
 {
     public function __construct() {  }
 
-    private function createToken($userId, $userEmail): bool{
-        $token = Str::random(64);
-        try{
-            UserToken::create([
-                'user_id' => $userId,
-                'user_email' => $userEmail,
-                'token' => $token
-            ]);
+    private function checkUserExists($userId){
+        $userExists = DB::selectOne(
+            "SELECT * FROM users WHERE user_id = :userId LIMIT 1", ['userId' => $userId]
+        );
+        if($userExists){ return true;}
+        else { return false; }
+    }
 
-            return true;
-        }catch(QueryException $e){
-            return false;
-        }
+    private function createToken($userId, $userEmail): bool{
+        $checkExists = $this->checkUserExists($userId);
+        if($checkExists){
+            $token = Str::random(64);
+            try{
+                UserToken::create([
+                    'user_id' => $userId,
+                    'user_email' => $userEmail,
+                    'token' => $token
+                ]);
+
+                return true;
+            }catch(QueryException $e){
+                return false;
+            }
+        }else { return false; }
     }
 
     private function createLongTermToken($userId, $userEmail): bool{
-        $addHourAmount = 24;
-        $token = Str::random(64);
-        try{
-            UserToken::create([
-                'user_id' => $userId,
-                'user_email' => $userEmail,
-                'token' => $token,
-                'end_date' => now()->addHour($addHourAmount)
-            ]);
-        }catch(QueryException $e){
-            return false;
+        $checkExists = $this->checkUserExists($userId);
+        if($checkExists){
+            $addHourAmount = 24;
+            $token = Str::random(64);
+            try{
+                UserToken::create([
+                    'user_id' => $userId,
+                    'user_email' => $userEmail,
+                    'token' => $token,
+                    'end_date' => now()->addHour($addHourAmount)
+                ]);
+
+                return true;
+            }catch(QueryException $e){
+                return false;
+            }
         }
     }
 
@@ -48,7 +64,7 @@ class TokenService
                 FROM user_token
                 WHERE user_id = :userId
                 AND user_email = :userEmail
-                AND token = ':token'
+                AND token = :token
                 AND created_at <= NOW()
                 AND end_date > NOW()
                 LIMIT 1",

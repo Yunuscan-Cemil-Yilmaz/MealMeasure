@@ -1,1 +1,37 @@
-<p>login works!</p>
+<div class="Login-Component-Main Page-Area">
+    <div class="login-panel">
+        <div class="login-panel-img">
+            <img src="/assets/images/logo/logo.png" alt="">
+        </div>
+        <div class="login-panel-form-area">
+            <div class="login-panel-form">
+                <form action="">
+                    <div class="login-input-area login-email-input-div mb-3">
+                        <label class="form-label" for="">Email</label>
+                        <input class="login-email-input form-control" type="text" name="" id="">
+                    </div>
+                    <div class="login-input-area login-password-input-div password-input-div mb-3">
+                        <label class="form-label" for="">Şifre</label>
+                        <div class="input-group">
+                          <input class="login-password-input form-control" type="password">
+                          <span class="input-group-text" (click)="togglePasswordVisibility()">
+                            <i [ngClass]="isPasswordVisible ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                          </span>
+                        </div>
+                      </div>
+                    <div class="login-input-area login-btn-div">
+                        <button class="btn btn-primary login-btn">Giriş Yap</button>
+                    </div>
+                    <div class="forgot-password-div mt-2">
+                        <a class="text-info"
+                        routerLink="">Şifremi Unuttum</a>
+                    </div>
+                </form>
+            </div>
+            <div class="have-account-link-div">
+                <a class="have-account-link"
+                routerLink="">Zaten Hesabım Var</a>
+            </div>
+        </div>
+    </div>
+</div>

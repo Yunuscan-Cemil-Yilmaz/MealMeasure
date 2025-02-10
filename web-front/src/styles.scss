@@ -1,3 +1,171 @@
+/*-----------------------------------------------------------------
+  Color Palette
+-----------------------------------------------------------------*/
+// Main Colors
+$color-primary:      #0d6efd;    
+$color-secondary:    #adb5bd;    
+$color-success:      #198754;    
+$color-danger:       #dc3545;    
+$color-warning:      #ffc107;    
+$color-info:         #0dcaf0;    
+$color-light:        #fff;    
+$color-dark:         #000;    
+
+$color-main-primary: #A0C878;
+$color-main-secondary: #27667B;
+$color-main-tertiary: #143D60;
+$color-main-quaternary: #DDEB9D;
+
+// Lighten/Darken
+$color-primary-light:  lighten($color-primary, 15%);
+$color-primary-dark:   darken($color-primary, 15%);
+$color-secondary-light: lighten($color-secondary, 15%);
+$color-secondary-dark:  darken($color-secondary, 15%);
+
+$color-main-primary-light:  lighten($color-main-primary, 15%);
+$color-main-primary-dark:   darken($color-main-primary, 15%);
+$color-main-secondary-light: lighten($color-main-secondary, 15%);
+$color-main-secondary-dark:  darken($color-main-secondary, 15%); 
+$color-main-tertiary-light: lighten($color-main-tertiary, 15%);
+$color-main-tertiary-dark:  darken($color-main-tertiary, 15%);
+$color-main-quaternary-light: lighten($color-main-quaternary, 15%);
+$color-main-quaternary-dark:  darken($color-main-quaternary, 15%);
+
+
+// Background colors
+$background-body:    #ffffff;
+$background-secondary: #f1f1f1;
+$background-tertiary:  #e9ecef;
+
+// Text colors
+$text-color-base:    #212529;
+$text-color-muted:   #6c757d;
+
+ 
+/*-----------------------------------------------------------------
+  Tipografi (Yazı Tipleri, Boyutlar, Ağırlıklar)
+-----------------------------------------------------------------*/
+$font-family-base:    'Helvetica Neue', Helvetica, Arial, sans-serif; 
+$font-family-heading: 'Georgia', serif; 
+
+$font-size-base:      1rem;       
+$font-size-sm:        0.875rem;   
+$font-size-lg:        1.25rem;    
+
+$line-height-base:    1.5;       
+$line-height-heading: 1.2;       
+
+$font-weight-normal:  400;
+$font-weight-bold:    700;
+$heading-margin-bottom: 0.5rem;  
+$paragraph-margin-bottom: 1rem;    
+
+ 
+/*-----------------------------------------------------------------
+  Spacing
+-----------------------------------------------------------------*/
+$spacer:         1rem;     
+$spacer-half:    0.5rem;
+$spacer-double:  2rem;
+
+// Margin & Padding
+$spacing-scale: (
+  0: 0,
+  1: 0.25rem,
+  2: 0.5rem,
+  3: 1rem,
+  4: 1.5rem,
+  5: 3rem
+);
+
+ 
+/*-----------------------------------------------------------------
+  Grid & Responsive (Breakpoints)
+-----------------------------------------------------------------*/
+$breakpoint-xs: 0;         // xs
+$breakpoint-sm: 576px;     // sm (mobil)
+$breakpoint-md: 768px;     // md (tablet)
+$breakpoint-lg: 992px;     // lg (laptop)
+$breakpoint-xl: 1200px;    // xl (desktop)
+$breakpoint-xxl: 1400px;   // xxl (large desktop)
+
+ 
+/*-----------------------------------------------------------------
+  Borders 
+-----------------------------------------------------------------*/
+$border-width:      1px;
+$border-color:      #dee2e6;
+$border-radius:     0.25rem;
+$border-radius-sm:  0.2rem;
+$border-radius-lg:  0.3rem;
+
+ 
+/*-----------------------------------------------------------------
+  Box Shadows
+-----------------------------------------------------------------*/
+$box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+$box-shadow:    0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+$box-shadow-lg: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+
+ 
+/*-----------------------------------------------------------------
+  Z-Index
+-----------------------------------------------------------------*/
+$zindex-dropdown:      1000;
+$zindex-sticky:        1020;
+$zindex-fixed:         1030;
+$zindex-modal-backdrop:1040;
+$zindex-modal:         1050;
+$zindex-popover:       1060;
+$zindex-tooltip:       1070;
+
+ 
+/*-----------------------------------------------------------------
+  Transitions & Animations
+-----------------------------------------------------------------*/
+$transition-duration:  0.3s;
+$transition-timing:    ease-in-out;
+$transition:           all $transition-duration $transition-timing;
+
+// Easing 
+$easing-default:       cubic-bezier(0.25, 0.8, 0.25, 1);
+$easing-in:            ease-in;
+$easing-out:           ease-out;
+
+ 
+/*-----------------------------------------------------------------
+  Buttons
+-----------------------------------------------------------------*/
+$btn-padding-y:       0.375rem;
+$btn-padding-x:       0.75rem;
+$btn-border-radius:   $border-radius;
+$btn-font-weight:     600;
+$btn-transition:      $transition;
+
+ 
+/*-----------------------------------------------------------------
+  Inputs, Form Controls
+-----------------------------------------------------------------*/
+$form-control-padding-y: 0.375rem;
+$form-control-padding-x: 0.75rem;
+$form-control-font-size: $font-size-base;
+$form-control-border-radius: $border-radius;
+$form-control-border-color:  $border-color;
+
+ 
+/*-----------------------------------------------------------------
+  Other Useless Variables
+-----------------------------------------------------------------*/
+$line-height-heading: 1.2;
+
+
+
+
+
+
+
+/* STYLES */
+
 @mixin clearfix() {
     &::after {
       content: "";
@@ -45,7 +213,7 @@
 *,
 *::before,
 *::after {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
   margin: 0;
   padding: 0;
 }
@@ -110,4 +278,138 @@ html {
   html {
     font-size: 16px; // 1 rem = 16px
   }
+}
+
+
+/* Color Roots */
+
+:root {
+  // Main Colors
+  --color-primary:      #0d6efd;    
+  --color-secondary:    #adb5bd;    
+  --color-success:      #198754;    
+  --color-danger:       #dc3545;    
+  --color-warning:      #ffc107;    
+  --color-info:         #0dcaf0;    
+  --color-light:        #fff;    
+  --color-dark:         #000;    
+
+  --color-main-primary: #A0C878;
+  --color-main-secondary: #27667B;
+  --color-main-tertiary: #143D60;
+  --color-main-quaternary: #DDEB9D;
+
+  // Background colors
+  --background-body:    #ffffff;
+  --background-secondary: #f1f1f1;
+  --background-tertiary:  #e9ecef;
+
+  // Text colors
+  --text-color-base:    #212529;
+  --text-color-muted:   #6c757d;
+
+  
+  /*-----------------------------------------------------------------
+    Tipografi (Yazı Tipleri, Boyutlar, Ağırlıklar)
+  -----------------------------------------------------------------*/
+
+  --font-size-base:      1rem;       
+  --font-size-sm:        0.875rem;   
+  --font-size-lg:        1.25rem;    
+
+  --line-height-base:    1.5;       
+  --line-height-heading: 1.2;       
+
+  --font-weight-normal:  400;
+  --font-weight-bold:    700;
+  --heading-margin-bottom: 0.5rem;  
+  --paragraph-margin-bottom: 1rem;    
+
+  
+  /*-----------------------------------------------------------------
+    Spacing
+  -----------------------------------------------------------------*/
+  --spacer-def:         1rem;     
+  --spacer-half:    0.5rem;
+  --spacer-double:  2rem;
+
+  // Margin & Padding
+  --spacing-scale: (
+    0: 0,
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 1rem,
+    4: 1.5rem,
+    5: 3rem
+  );
+
+  
+  /*-----------------------------------------------------------------
+    Borders 
+  -----------------------------------------------------------------*/
+  --border-width:      1px;
+  --border-color:      #dee2e6;
+  --border-radius:     0.25rem;
+  --border-radius-sm:  0.2rem;
+  --border-radius-lg:  0.3rem;
+
+}
+
+
+.btn-primary {
+  background-color: $color-main-primary-dark;
+  border-color: $color-main-primary-dark; 
+  color: white; 
+}
+
+.btn-primary:hover {
+  background-color: darken($color-main-primary-dark, 15%); 
+  border-color: darken($color-main-primary-dark, 15%); 
+  color: white; 
+}
+
+.btn-primary:focus, .btn-primary.focus {
+  box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.5);
+}
+
+
+.form-control:focus {
+  border-color: var(--color-main-primary); /* Sınır rengini istediğiniz renk ile değiştirebilirsiniz */
+  box-shadow: 0 0 0 0.2rem var(--color-main-primary); /* Focus sırasında çıkan gölge rengini değiştirme */
+}
+
+.password-input-div{
+  .form-control:focus {
+      border-color: none; /* Input alanındaki odak rengi */
+      box-shadow: none; /* Input odak sırasında çıkacak gölge */
+  }
+  .input-group:focus-within {
+      border-color: var(--color-main-primary); /* İstediğiniz renk */
+      box-shadow: 0 0 0 0.2rem var(--color-main-primary); /* Input group odaklanınca yeşil gölge */
+  }
+  input{
+      border-radius: 10px 0 0 10px !important;
+  }
+}
+
+.input-group {
+  display: flex;
+  align-items: center;
+  position: relative;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.input-group-text {
+  cursor: pointer;
+}
+
+.input-group-text i {
+  font-size: 1.2rem; /* İkon boyutunu ayarlayabilirsiniz */
+  height: 25px !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
 }
