@@ -11,19 +11,21 @@ class TokenService
 {
     public function __construct() {  }
 
-    private function checkUserExists($userId){
+    private function checkUserExists($userId, $userEmail): bool{
         $userExists = DB::selectOne(
-            "SELECT * FROM users WHERE user_id = :userId LIMIT 1", ['userId' => $userId]
+            "SELECT user_id FROM users WHERE user_id = :userId  AND user_email = :user_email LIMIT 1", 
+            ['userId' => $userId, 'user_email' => $userEmail]
         );
         if($userExists){ return true;}
         else { return false; }
     }
 
     private function createToken($userId, $userEmail): bool{
-        $checkExists = $this->checkUserExists($userId);
+        $checkExists = $this->checkUserExists($userId, $userEmail);
         if($checkExists){
             $token = Str::random(64);
             try{
+                $this->deleteTokenByUser($userId, $userEmail);
                 UserToken::create([
                     'user_id' => $userId,
                     'user_email' => $userEmail,
@@ -38,11 +40,12 @@ class TokenService
     }
 
     private function createLongTermToken($userId, $userEmail): bool{
-        $checkExists = $this->checkUserExists($userId);
+        $checkExists = $this->checkUserExists($userId, $userEmail);
         if($checkExists){
-            $addHourAmount = 24;
+            $addHourAmount = config('hour_amount_for_long_term_token');
             $token = Str::random(64);
             try{
+                $this->deleteTokenByUser($userId, $userEmail);
                 UserToken::create([
                     'user_id' => $userId,
                     'user_email' => $userEmail,
@@ -54,6 +57,8 @@ class TokenService
             }catch(QueryException $e){
                 return false;
             }
+        }else { 
+            return false;
         }
     }
 
@@ -173,11 +178,24 @@ class TokenService
         }
     }
 
-    public function deleteToken($token): bool{
+    private function deleteTokenByUser($userId, $userEmail): bool { 
+        try{
+            UserToken::where('user_id', $userId)
+            ->where('user_email', $userEmail)
+            ->delete();
+
+            return true;
+        }catch (QueryException $e){
+            return false;
+        }
+    }
+
+    public function deleteTokenByToken($token): bool{
         try{
             return UserToken::where('token', $token)->delete() > 0;
         }catch(QueryException $e){
             return false;
         }
     }
+
 }
