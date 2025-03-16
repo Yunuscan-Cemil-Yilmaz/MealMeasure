@@ -8,12 +8,19 @@
                 <form action="">
                     <div class="login-input-area login-email-input-div mb-3">
                         <label class="form-label" for="">Email</label>
-                        <input class="login-email-input form-control" type="text" name="" id="">
+                        <input class="login-email-input form-control" type="text" name="" id=""
+                        pattern="/^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9]{3,}\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/gm"
+                        required
+                        placeholder="Email Adresinizi Yazın*">
                     </div>
                     <div class="login-input-area login-password-input-div password-input-div mb-3">
                         <label class="form-label" for="">Şifre</label>
                         <div class="input-group">
-                          <input class="login-password-input form-control" type="password">
+                          <input class="login-password-input form-control" type="password"
+                          minlength="8"
+                          maxlength="64"
+                          required
+                          placeholder="Şifrenizi Girin*">
                           <span class="input-group-text" (click)="togglePasswordVisibility()">
                             <i [ngClass]="isPasswordVisible ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
                           </span>
@@ -30,7 +37,7 @@
             </div>
             <div class="have-account-link-div">
                 <a class="have-account-link"
-                routerLink="/register" (click)="clickTry()">Hesabım Yok (Oluştur)</a>
+                routerLink="/register">Hesabım Yok (Oluştur)</a>
             </div>
         </div>
     </div>

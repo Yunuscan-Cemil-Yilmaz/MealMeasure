@@ -21,9 +21,4 @@ export class LoginComponent implements OnInit {
       passwordInput.type = this.isPasswordVisible ? 'text' : 'password';
     }
   }
-
-  clickTry(){
-    console.log("deneme");
-  }
-
 }
