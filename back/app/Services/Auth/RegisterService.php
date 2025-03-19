@@ -31,8 +31,27 @@ class RegisterService
         $this->tokenService = $tokenService;
     }
 
-    private function createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin=0){
-
+    private function createUserProcess($email, $password, $name, $surname, $nickname, $isAdmin=0){
+        try{
+            $hashedPassword = $this->passwordService->hashPassword($password);
+            $user = new User();
+            $user->user_email = $email;
+            $user->is_admin = $isAdmin;
+            $user->user_name = $name;
+            $user->user_surname= $surname;
+            $user->user_nickname = $nickname;
+            $user->user_password = $hashedPassword;
+            $user->save();
+            return response()->json([
+                'status' => 200,
+                'message' => 'user created with successfuly'
+            ]);
+        }catch(\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'error while create user process: ' . $e->getMessage()
+            ]);
+        }
     }
 
     public function createUser($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin=0, $token=null, $adminId=null, $adminEmail=null){
@@ -56,7 +75,8 @@ class RegisterService
                 if($isAdmin){
                     $validateAdmin = $this->tokenService->checkAdminToken($token, $adminId, $adminEmail);
                     if($validateAdmin){
-                        $this->createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin);
+                        $result = $this->createUserProcess($email, $password, $name, $surname, $nickname, $isAdmin);
+                        return $result;
                     }else {
                         return response()->json([
                             'status' => 400,
@@ -64,7 +84,8 @@ class RegisterService
                         ]);
                     }
                 }else {
-                    $this->createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname);
+                    $result = $this->createUserProcess($email, $password, $name, $surname, $nickname);
+                    return $result;
                 }
             }else { 
                 return response()->json([
