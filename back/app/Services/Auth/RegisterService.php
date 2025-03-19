@@ -2,10 +2,15 @@
 
 namespace App\Services\Auth;
 
+// models
 use App\Models\Auth\User;
+
+// services
+use App\Services\Auth\TokenService;
 use App\Services\Auth\PasswordService;
 use App\Services\Auth\ValidateAuthDatas;
 
+// laravel utilities
 use Illuminate\Validation\ValidationException;
 
 class RegisterService
@@ -13,21 +18,24 @@ class RegisterService
     protected $passwordService;
     protected $userModel;
     protected $validate;
+    protected $tokenService;
     public function __construct(
         User $userModel,
         PasswordService $passwordService,
-        ValidateAuthDatas $validateAuthDatas
+        ValidateAuthDatas $validateAuthDatas,
+        TokenService $tokenService
     ) {
         $this->userModel = $userModel;
         $this->passwordService = $passwordService;
         $this->validate = $validateAuthDatas;
+        $this->tokenService = $tokenService;
     }
 
-    private function createUserProcess(){
+    private function createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin=0){
 
     }
 
-    public function createUser($email, $password, $passwordAgain, $isAdmin, $name, $surname, $nickname){
+    public function createUser($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin=0, $token=null, $adminId=null, $adminEmail=null){
         try {
             // email
             $valEmail = $this->validate->validateEmail($email);
@@ -44,7 +52,20 @@ class RegisterService
                 $valName && $valSurname && $valNickname
                 && $valEmail && $valPassword
             ){
-
+                // check admin token
+                if($isAdmin){
+                    $validateAdmin = $this->tokenService->checkAdminToken($token, $adminId, $adminEmail);
+                    if($validateAdmin){
+                        $this->createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname, $isAdmin);
+                    }else {
+                        return response()->json([
+                            'status' => 400,
+                            'message' => 'unauthorize process'
+                        ]);
+                    }
+                }else {
+                    $this->createUserProcess($email, $password, $passwordAgain, $name, $surname, $nickname);
+                }
             }else { 
                 return response()->json([
                     'status' => 'error',

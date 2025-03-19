@@ -119,28 +119,16 @@ class TokenService
             if($longTerm){
                 $checkProcess = $this->createLongTermToken($userId, $userEmail);
                 if($checkProcess){
-                    return response()->json([
-                        'result' => 'success',
-                        'description' => 'token created'
-                    ]);
+                    return true;
                 }else{
-                    return response()->json([
-                        'result' => 'error',
-                        'description' => 'token cant created'
-                    ]);
+                    return false;
                 }
             }else {
                 $checkProcess = $this->createToken($userId, $userEmail);
                 if($checkProcess){
-                    return response()->json([
-                        'result' => 'success',
-                        'description' => 'token created'
-                    ]);
+                    return true;
                 }else{
-                    return response()->json([
-                        'result' => 'error',
-                        'description' => 'token cant created'
-                    ]);
+                    return false;
                 }
             }
         }catch(QueryException $e){
@@ -151,30 +139,18 @@ class TokenService
     public function checkUserToken($token, $userId, $userEmail){
         $checkToken = $this->validateToken($token, $userId, $userEmail);
         if($checkToken){
-            return response()->json([
-                'result' => 'success',
-                'description' => 'valid token'
-            ]);
+            return true;
         }else {
-            return response()->json([
-                'result' => 'error',
-                'description' => 'invalid token'
-            ]);
+            return false;
         }
     }
 
     public function checkAdminToken($token, $userId, $userEmail){
         $checkToken = $this->validateAdminToken($token, $userId, $userEmail);
         if($checkToken){
-            return response()->json([
-                'result' => 'success',
-                'description' => 'valid token'
-            ]);
+            return true;
         }else {
-            return response()->json([
-                'result' => 'error',
-                'description' => 'invalid token'
-            ]);
+            return false;
         }
     }
 
