@@ -36,11 +36,12 @@ class RegisterService
             $hashedPassword = $this->passwordService->hashPassword($password);
             $user = new User();
             $user->user_email = $email;
-            $user->is_admin = $isAdmin;
             $user->user_name = $name;
             $user->user_surname= $surname;
             $user->user_nickname = $nickname;
             $user->user_password = $hashedPassword;
+            if ($isAdmin) { $user->is_admin = 1; }
+            else { $user->is_admin = 0; }
             $user->save();
             return response()->json([
                 'status' => 200,
@@ -91,7 +92,7 @@ class RegisterService
                 return response()->json([
                     'status' => 'error',
                     'errors' => 'bad params',
-                    'message' => 'unvalid parameters'
+                    'message' => 'invalid parameters'
                 ], 422);
             }
         }catch (ValidationException $e) { 

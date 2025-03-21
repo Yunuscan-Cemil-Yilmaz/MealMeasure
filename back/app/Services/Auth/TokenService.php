@@ -20,7 +20,7 @@ class TokenService
         else { return false; }
     }
 
-    private function createToken($userId, $userEmail): bool{
+    private function createToken($userId, $userEmail) {
         $checkExists = $this->checkUserExists($userId, $userEmail);
         if($checkExists){
             $token = Str::random(64);
@@ -32,14 +32,14 @@ class TokenService
                     'token' => $token
                 ]);
 
-                return true;
+                return $token;
             }catch(QueryException $e){
                 return false;
             }
         }else { return false; }
     }
 
-    private function createLongTermToken($userId, $userEmail): bool{
+    private function createLongTermToken($userId, $userEmail){
         $checkExists = $this->checkUserExists($userId, $userEmail);
         if($checkExists){
             $addHourAmount = config('hour_amount_for_long_term_token');
@@ -53,7 +53,7 @@ class TokenService
                     'end_date' => now()->addHour($addHourAmount)
                 ]);
 
-                return true;
+                return $token;
             }catch(QueryException $e){
                 return false;
             }
@@ -117,16 +117,16 @@ class TokenService
     public function createUserToken($userId, $userEmail, bool $longTerm){
         try{
             if($longTerm){
-                $checkProcess = $this->createLongTermToken($userId, $userEmail);
-                if($checkProcess){
-                    return true;
+                $token = $this->createLongTermToken($userId, $userEmail);
+                if($token){
+                    return $token;
                 }else{
                     return false;
                 }
             }else {
-                $checkProcess = $this->createToken($userId, $userEmail);
-                if($checkProcess){
-                    return true;
+                $token = $this->createToken($userId, $userEmail);
+                if($token){
+                    return $token;
                 }else{
                     return false;
                 }
