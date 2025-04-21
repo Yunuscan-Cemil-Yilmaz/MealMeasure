@@ -43,15 +43,9 @@ class RegisterService
             if ($isAdmin) { $user->is_admin = 1; }
             else { $user->is_admin = 0; }
             $user->save();
-            return response()->json([
-                'status' => 200,
-                'message' => 'user created with successfuly'
-            ]);
+            return [ 'status' => 200, 'message' => 'user created with successfuly' ];
         }catch(\Exception $e){
-            return response()->json([
-                'status' => 500,
-                'message' => 'error while create user process: ' . $e->getMessage()
-            ]);
+            return [ 'status' => 500, 'message' => 'error while create user process: ' . $e->getMessage() ];
         }
     }
 
@@ -79,55 +73,32 @@ class RegisterService
                         $result = $this->createUserProcess($email, $password, $name, $surname, $nickname, $isAdmin);
                         return $result;
                     }else {
-                        return response()->json([
-                            'status' => 400,
-                            'message' => 'unauthorize process'
-                        ]);
+                        return [ 'status' => 401, 'message' => 'unauthorize process' ];
                     }
                 }else {
                     $result = $this->createUserProcess($email, $password, $name, $surname, $nickname);
                     return $result;
                 }
             }else { 
-                return response()->json([
-                    'status' => 'error',
-                    'errors' => 'bad params',
-                    'message' => 'invalid parameters'
-                ], 422);
+                return [ 'status' => 422, 'errors' => 'bad params', 'message' => 'invalid parameters' ];
             }
         }catch (ValidationException $e) { 
             $errors = $e->errors();
 
             foreach ($errors as $field => $messages) {
                 if (strpos($messages[0], 'bad param for password') !== false) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Password validation failed',
-                        'errors' => $messages
-                    ], 422);
+                    return [ 'status' => 422, 'message' => 'Password validation failed', 'errors' => $messages ];
                 }
     
                 if (strpos($messages[0], 'bad param for email') !== false) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Email validation failed',
-                        'errors' => $messages
-                    ], 422);
+                    return [ 'status' => 422, 'message' => 'Email validation failed', 'errors' => $messages ];
                 }
     
                 if (strpos($messages[0], 'bad param for name') !== false) {
-                    return response()->json([
-                        'status' => 'error',
-                        'message' => 'Names (name || surname || nickname || validation failed',
-                        'errors' => $messages
-                    ], 422);
+                    return [ 'status' => 422, 'message' => 'Names (name || surname || nickname || validation failed', 'errors' => $messages ];
                 }
     
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'Validation failed',
-                    'errors' => $messages
-                ], 422);
+                return [ 'status' => 422, 'message' => 'Validation failed', 'errors' => $messages ];
             }
         }
     }

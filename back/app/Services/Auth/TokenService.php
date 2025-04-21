@@ -7,6 +7,8 @@ use Illuminate\Database\QueryException;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 
+use function Illuminate\Log\log;
+
 class TokenService
 {
     public function __construct() {  }
@@ -154,16 +156,10 @@ class TokenService
         }
     }
 
-    private function deleteTokenByUser($userId, $userEmail): bool { 
-        try{
-            UserToken::where('user_id', $userId)
-            ->where('user_email', $userEmail)
-            ->delete();
-
-            return true;
-        }catch (QueryException $e){
-            return false;
-        }
+    private function deleteTokenByUser($userId, $userEmail): void { 
+        UserToken::where('user_id', $userId)
+        ->where('user_email', $userEmail)
+        ->delete();
     }
 
     public function deleteTokenByToken($token): bool{
