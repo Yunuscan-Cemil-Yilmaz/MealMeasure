@@ -1,0 +1,78 @@
+<div class="Register-Component-Main Page-Area">
+    <div class="register-panel">
+        <div class="register-panel-img">
+            <img src="/assets/images/logo/logo.png" alt="">
+        </div>
+        <div class="register-panel-form-area">
+            <div class="register-panel-form">
+                <form action="">
+                    <div class="register-input-area register-name-input-div mb-3">
+                        <label class="form-label" for="">İsim</label>
+                        <input class="register-name-input form-control" type="text" name="" id=""
+                        minlength="3"
+                        maxlength="20"
+                        placeholder="İsminizi yazın*" >
+                    </div>
+                    <div class="register-input-area register-surname-input-div mb-3">
+                        <label class="form-label" for="">Soyisim</label>
+                        <input class="register-surnamel-input form-control" type="text" name="" id=""
+                        minlength="3"
+                        maxlength="20"
+                        required
+                        placeholder="Soyisminizi yazın*">
+                    </div>
+                    <div class="register-input-area register-nick-input-div mb-3">
+                        <label class="form-label" for="">Kullanıcı Adı</label>
+                        <input class="register-nick-input form-control" type="text" name="" id=""
+                        minlength="3"
+                        maxlength="20"
+                        required
+                        placeholder="Uygulama içerisinde kullanılacak kullanıcı adınızı yazın*">
+                    </div>
+                    
+                    <div class="register-input-area register-email-input-div mb-3">
+                        <label class="form-label" for="">Email</label>
+                        <input class="register-email-input form-control" type="text" name="" id=""
+                        pattern="/^[a-zA-Z0-9._%+-]{3,}@[a-zA-Z0-9]{3,}\.[a-zA-Z]{2,}(?:\.[a-zA-Z]{2,})?$/gm"
+                        required
+                        placeholder="Email adresinizi doğru bir biçimde yazın*">
+                    </div>
+
+                    <div class="register-input-area register-password-input-div password-input-div mb-3">
+                        <label class="form-label" for="">Şifre</label>
+                        <div class="input-group">
+                          <input class="register-password-input form-control" type="password"
+                          minlength="8"
+                          maxlength="64"
+                          required
+                          placeholder="Şifre formatına uygun şekilde şifrenizi oluşturun*">
+                          <span class="input-group-text" (click)="togglePasswordVisibility()">
+                            <i [ngClass]="isPasswordVisible ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="register-input-area register-password-input-div password-input-div mb-3">
+                        <label class="form-label" for="">Tekrar Şifre</label>
+                        <div class="input-group">
+                          <input class="register-password-input register-password-again-input form-control" type="password"
+                          minlength="8"
+                          maxlength="64"
+                          required
+                          placeholder="Şifrenizi tekrar girin*">
+                          <span class="input-group-text" (click)="togglePasswordAgainVisibility()">
+                            <i [ngClass]="isPasswordAgainVisible ? 'fa-regular fa-eye-slash' : 'fa-regular fa-eye'"></i>
+                          </span>
+                        </div>
+                    </div>
+                    <div class="register-input-area register-btn-div">
+                        <button class="btn btn-primary register-btn">Giriş Yap</button>
+                    </div>
+                </form>
+            </div>
+            <div class="have-account-link-div">
+                <a class="have-account-link"
+                routerLink="/login">Zaten Hesabım Var (Giriş Yap)</a>
+            </div>
+        </div>
+    </div>
+</div>

@@ -123,4 +123,7 @@ return [
         'store' => env('APP_MAINTENANCE_STORE', 'database'),
     ],
 
+
+    // project level veriables:
+    'hour_amount_for_long_term_token' => 24,
 ];
