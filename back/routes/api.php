@@ -25,6 +25,11 @@ Route::post('/test', [TestController::class, 'test']);
 */
 Route::post('/register', [AuthController::class, 'register']);
 
+/**
+ * @param email
+ * @param password
+ * @param long_term bool // true for long term token || false
+ */
 Route::post('/login', [AuthController::class, 'login']);
 
 /**
@@ -33,3 +38,8 @@ Route::post('/login', [AuthController::class, 'login']);
  * @param token
  */
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
+
+/**
+ * @param user_id
+ */
+Route::post('/logout', [AuthController::class, 'logout']);

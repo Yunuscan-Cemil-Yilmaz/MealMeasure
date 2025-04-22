@@ -100,10 +100,7 @@ class LoginService extends UserService
                 'token' => $token,
             ], 200);
         }else {
-            return response()->json([
-                'status' => 401,
-                'message' => 'invalid credentials',
-            ], 401);
+            return null;
         }
     }
 
@@ -117,11 +114,11 @@ class LoginService extends UserService
                 'errors' => $e->errors()
             ]);
         }
-        if(isEmpty($userId) || isEmpty($email) || isEmpty($token)){
+        if(empty($userId) || empty($email) || empty($token)){
             return response()->json([
                 'status' => 422,
                 'message' => 'validation error',
-            ]);
+            ], 422);
         }
         try{
             $result = $this->autoLoginProcess($userId, $email, $token);

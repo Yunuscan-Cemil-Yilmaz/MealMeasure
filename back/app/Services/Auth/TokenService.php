@@ -44,7 +44,7 @@ class TokenService
     private function createLongTermToken($userId, $userEmail){
         $checkExists = $this->checkUserExists($userId, $userEmail);
         if($checkExists){
-            $addHourAmount = config('hour_amount_for_long_term_token');
+            $addHourAmount = config('app.hour_amount_for_long_term_token');
             $token = Str::random(64);
             try{
                 $this->deleteTokenByUser($userId, $userEmail);
@@ -52,7 +52,7 @@ class TokenService
                     'user_id' => $userId,
                     'user_email' => $userEmail,
                     'token' => $token,
-                    'end_date' => now()->addHour($addHourAmount)
+                    'end_date' => now()->addHour($addHourAmount),
                 ]);
 
                 return $token;
@@ -81,7 +81,40 @@ class TokenService
                     'token' => $token
                 ]
             );
+    
+            if (!$tokenExists) {
+                $timeoutToken = DB::selectOne(
+                    "SELECT *
+                    FROM user_token
+                    WHERE user_id = :userId
+                    AND user_email = :userEmail
+                    AND token = :token
+                    LIMIT 1",
+                    [
+                        'userId' => $userId,
+                        'userEmail' => $userEmail,
+                        'token' => $token
+                    ]
+                );
 
+                if(!$timeoutToken){
+                    return false;
+                }
+
+                DB::delete(
+                    "DELETE FROM user_token
+                    WHERE token = :token 
+                    AND user_id = :userId
+                    AND user_email = :userEmail",
+                    [
+                        'userId' => $timeoutToken->user_id,
+                        'userEmail' => $timeoutToken->user_email,
+                        'token' => $timeoutToken->token
+                    ]
+                );
+                return false;
+            }
+    
             if($tokenExists->end_date > now()){
                 return true;
             }else { 
@@ -98,7 +131,7 @@ class TokenService
                 );
                 return false;
             }
-        }catch(QueryException $e){
+        } catch(QueryException $e){
             return false;
         }
     }

@@ -103,7 +103,7 @@ class AuthController extends Controller
                 return response()->json([
                     'status' => 422,
                     'message' => 'validation error',
-                ]);
+                ], 422);
             }
             $result = $this->loginService->autoLogin($userId, $email, $token);
             return $result;
@@ -111,29 +111,27 @@ class AuthController extends Controller
             return response()->json([
                 'status' => 500,
                 'message' => 'error while auto login user process: ' . $e->getMessage()
-            ]);
+            ], 500);
         }
     }
 
     public function logout(Request $request){
-        // $userId = $request->input('user_id');
-        // $email = $request->input('email');
-        // $token = $request->input('token');
+        $userId = $request->input('user_id');
 
-        // try {
-        //     if(isEmpty($userId) || isEmpty($email) || isEmpty($token)){
-        //         return response()->json([
-        //             'status' => 422,
-        //             'message' => 'validation error',
-        //         ]);
-        //     }
-        //     $result = $this->loginService->logout($userId, $email, $token);
-        //     return $result;
-        // }catch (\Exception $e){
-        //     return response()->json([
-        //         'status' => 500,
-        //         'message' => 'error while logout user process: ' . $e->getMessage()
-        //     ]);
-        // }
+        try {
+            if(empty($userId)){
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'validation error',
+                ], 422);
+            }
+            $result = $this->loginService->logout($userId);
+            return $result;
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'error while logout user process: ' . $e->getMessage()
+            ]);
+        }
     }
 }
