@@ -11,7 +11,7 @@ use App\Http\Controllers\Auth\AuthController;
 Route::post('/test', [TestController::class, 'test']);
 
 /**
- * @param $email
+ * @param email
  * @param password
  * @param passwordAgain
  * @param name
@@ -24,5 +24,12 @@ Route::post('/test', [TestController::class, 'test']);
  *
 */
 Route::post('/register', [AuthController::class, 'register']);
+
 Route::post('/login', [AuthController::class, 'login']);
+
+/**
+ * @param user_id
+ * @param email
+ * @param token
+ */
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
