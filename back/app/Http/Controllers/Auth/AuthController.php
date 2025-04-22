@@ -4,15 +4,20 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Services\Auth\RegisterService;
+use App\Services\Auth\LoginService;
 
 class AuthController extends Controller
 {
     protected $registerService;
+    protected $loginService;
     public function __construct(
-        RegisterService $registerService
+        RegisterService $registerService,
+        LoginService $loginService
     ) {
         $this->registerService = $registerService;
+        $this->loginService = $loginService;
     }
 
     private function findRegisterReturn($code) { 
@@ -70,5 +75,65 @@ class AuthController extends Controller
                 ]);
             }
         }
+    }
+
+    public function login(Request $request){
+        $email = $request->input('email');
+        $password = $request->input('password');
+        $isLongTerm = $request->input('long_term');
+        try {
+            if($isLongTerm) $result = $this->loginService->login($email, $password, true);
+            else $result = $this->loginService->login($email, $password);
+            return $result;
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'error while login user process: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function autoLogin(Request $request){
+        $userId = $request->input('user_id');
+        $email = $request->input('email');
+        $token = $request->input('token');
+
+        try {
+            if(empty($userId) || empty($email) || empty($token)){
+                return response()->json([
+                    'status' => 422,
+                    'message' => 'validation error',
+                ]);
+            }
+            $result = $this->loginService->autoLogin($userId, $email, $token);
+            return $result;
+        }catch (\Exception $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'error while auto login user process: ' . $e->getMessage()
+            ]);
+        }
+    }
+
+    public function logout(Request $request){
+        // $userId = $request->input('user_id');
+        // $email = $request->input('email');
+        // $token = $request->input('token');
+
+        // try {
+        //     if(isEmpty($userId) || isEmpty($email) || isEmpty($token)){
+        //         return response()->json([
+        //             'status' => 422,
+        //             'message' => 'validation error',
+        //         ]);
+        //     }
+        //     $result = $this->loginService->logout($userId, $email, $token);
+        //     return $result;
+        // }catch (\Exception $e){
+        //     return response()->json([
+        //         'status' => 500,
+        //         'message' => 'error while logout user process: ' . $e->getMessage()
+        //     ]);
+        // }
     }
 }

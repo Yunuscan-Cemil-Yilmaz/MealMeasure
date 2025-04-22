@@ -32,6 +32,29 @@ class ValidateAuthDatas
         return true;
     }
 
+    public static function validateEmailForExists($email){
+        $validator = Validator::make(
+            ['email' => $email],
+            ['email' => [
+                'required',
+                'email',
+                'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            ]]
+        );
+
+        if($validator->fails()){
+            $errors = $validator->errors();
+            throw new ValidationException($validator, response()->json([
+                'status' => 'error',
+                'errors' => $errors,
+                'message' => 'bad param for email'
+            ]));
+        }
+
+        return true;
+    }
+
 
     public static function validateNames($name){
         $validator = Validator::make(

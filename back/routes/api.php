@@ -22,8 +22,7 @@ Route::post('/test', [TestController::class, 'test']);
  * @param admin_id // not required \\ if doesnt admin user
  * @param admin_email // not required \\ if doesnt admin user
  *
- * @return status
- * @return message \\ if process success
- * @return errors \\ if process failed
 */
 Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/auto-login', [AuthController::class, 'autoLogin']);
