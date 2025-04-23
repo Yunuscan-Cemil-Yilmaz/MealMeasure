@@ -1,4 +1,85 @@
-<div class="Register-Component-Main Page-Area">
+<div class="register-component-main-div">
+    <div class="auth-area">
+        
+        <p class="register-sub">Start tracking your meals today</p>
+        
+        <div class="register-wrapper"></div>
+
+        <div class="utility-input-text"
+        placeholder="First Name"
+        type="text"
+        (valueChanged)="firstName = $event"></div>
+        
+        <div class="utility-input-text"
+                placeholder="Last Name"
+                type="text"
+                (valueChanged)="lastName = $event"></div>
+        
+        <div class="utility-input-text"
+                placeholder="Username"
+                type="text"
+                (valueChanged)="username = $event"></div>
+        
+        <div class="utility-input-text"
+                placeholder="Email"
+                type="email"
+                (valueChanged)="email = $event"></div>
+        
+        <div class="utility-input-text register-password-input"
+                placeholder="Password"
+                type="password"
+                (valueChanged)="password = $event"></div>
+        
+        <div class="utility-input-text register-password-again-input"
+                placeholder="Confirm Password"
+                type="password"
+                (valueChanged)="confirmPassword = $event"></div>
+        
+        
+        <div class="utilty-button"
+        label ="Sign up"
+        type="success"
+        [disabled]="false"
+        [loading]="false"
+        (clicked)="submit()"
+        >
+        </div>
+
+        <div class="agreement-section">
+            <p class="agreement-text">by continuing, you agree to our</p>
+            <div class="agreement-links">
+              <a href="#">term of service</a>
+              <span class="dot">·</span>
+              <a href="#">privacy policy</a>
+              <span class="dot">·</span>
+              <a href="#">content policies</a>
+            </div>
+          </div>
+          
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="Register-Component-Main Page-Area">
     <div class="register-panel">
         <div class="register-panel-img">
             <img src="/assets/images/logo/logo.png" alt="">
@@ -75,4 +156,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->

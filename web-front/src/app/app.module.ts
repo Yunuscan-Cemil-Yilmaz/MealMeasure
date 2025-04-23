@@ -7,6 +7,7 @@ import { AuthicencationModule } from './authicencation/authicencation.module';
 import { DietsModule } from './diets/diets.module';
 import { MealsModule } from './meals/meals.module';
 import { SharedModule } from './shared/shared.module';
+import { UtilsModule } from './utils/utils.module';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SharedModule } from './shared/shared.module';
     DietsModule,
     MealsModule,
     SharedModule,
+    UtilsModule,
 
     BrowserModule,
     AppRoutingModule,

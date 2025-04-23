@@ -1,4 +1,82 @@
-<div class="Login-Component-Main Page-Area">
+<div class="login-component-main-div">
+    <div class="auth-area">
+        
+        <div class="gap">
+        <h1 class="get-started">Get Started With Your Nutrition Journey</h1>
+        <p class="login-signup-text">Log in or 
+            <span class="sign-up-action" (click)="goToSignUp()">Sign up</span>
+        </p>
+        </div>
+
+        <div class="utility-input-text"
+        placeholder="email"
+        type="email"
+        (valueChanged)="email = $event"></div>
+
+        <div class="utility-input-text"
+        placeholder="password"
+        type="password"
+        (valueChanged)="password = $event"></div>
+
+        <div class="utilty-button"
+        label ="Log in"
+        type="success"
+        [disabled]="false"
+        [loading]="false"
+        (clicked)="submit()"
+        >
+        </div>
+
+        <div class="or-line">
+            <span>Or</span>
+          </div>
+        
+          <button class="social-btn facebook">
+            <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook" />
+            Continue With Facebook
+          </button>
+          
+          <button class="social-btn google">
+            <img 
+            src="https://img.icons8.com/color/48/google-logo.png" 
+            alt="Google" 
+            width="20" 
+            height="20" />
+            Continue With Google
+          </button>
+          
+        
+          <div class="agreement-section">
+            <p class="agreement-text">by continuing, you agree to our</p>
+            <div class="agreement-links">
+              <a href="#">term of service</a>
+              <span class="dot">·</span>
+              <a href="#">privacy policy</a>
+              <span class="dot">·</span>
+              <a href="#">content policies</a>
+            </div>
+          </div>
+          
+
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="Login-Component-Main Page-Area">
     <div class="login-panel">
         <div class="login-panel-img">
             <img src="/assets/images/logo/logo.png" alt="">
@@ -41,4 +119,4 @@
             </div>
         </div>
     </div>
-</div>
+</div> -->
