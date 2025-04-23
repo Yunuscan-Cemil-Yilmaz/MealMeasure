@@ -1,0 +1,30 @@
+# __pycache__ klasörleri
+__pycache__/
+*.py[cod]
+
+# sanal ortamlar (örneğin venv veya env adında olabilir)
+venv/
+env/
+
+# platforma özel dosyalar
+.DS_Store
+Thumbs.db
+
+# log dosyaları
+*.log
+
+# IDE/editor ayarları
+.vscode/
+.idea/
+
+# pip tarafından indirilen dosyalar (cache)
+pip-wheel-metadata/
+*.egg-info/
+*.egg
+
+# Jupyter notebook checkpoint dosyaları
+.ipynb_checkpoints/
+
+# geçici dosyalar
+*.bak
+*.tmp
