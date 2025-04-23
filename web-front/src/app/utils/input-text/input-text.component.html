@@ -1,0 +1,12 @@
+<div class="input-wrapper">
+    <input 
+    [type]="type"
+    [placeholder]="placeholder"
+    (input)="onInput($event)"
+    />
+
+    <i *ngIf="type === 'email'" class="fa-solid fa-user input-icon"></i>
+    <i *ngIf="type === 'password'" class="fa-solid fa-lock input-icon"></i>
+</div>
+
+

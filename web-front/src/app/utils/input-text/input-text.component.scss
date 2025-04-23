@@ -1,0 +1,37 @@
+.input-wrapper{
+    width: 90%;
+    margin: 1rem auto;
+    background-color: #2f2f2f;
+    border-radius: 12px;
+    padding: 14px 16px;
+    box-sizing: border-box;
+
+    input {
+        width: 100%;
+        background: transparent;
+        border: none;
+        outline: none;
+        color: white;
+        font-size: 1rem;
+    }
+
+    input::placeholder{
+        color: #565656;
+    }
+}
+
+
+.input-wrapper {
+    position: relative;
+  
+    .input-icon {
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #888;
+      font-size: 16px;
+      pointer-events: none;
+      opacity: 0.3;
+    }
+  }

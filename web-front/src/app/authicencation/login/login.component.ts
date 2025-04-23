@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit} from '@angular/core';
+import {Router} from '@angular/router'
 
 @Component({
   selector: 'app-login',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class LoginComponent implements OnInit {
   isPasswordVisible: boolean = false;
   
-  constructor() { }
+  constructor(private router: Router) { }
 
   ngOnInit(): void {
   }
@@ -19,6 +20,19 @@ export class LoginComponent implements OnInit {
     const passwordInput = document.querySelector('.login-password-input') as HTMLInputElement;
     if (passwordInput) {
       passwordInput.type = this.isPasswordVisible ? 'text' : 'password';
-    }
+    } 
   }
+  onSave() {
+    console.log('loggg');
+  }
+
+  email:string= '';
+  password:string='';
+  
+  submit(){ }
+
+  goToSignUp(){
+    this.router.navigate(['/sign-up'])
+  }
+  
 }
