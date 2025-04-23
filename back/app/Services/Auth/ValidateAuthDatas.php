@@ -14,7 +14,30 @@ class ValidateAuthDatas
             ['email' => [
                 'required',
                 'email',
-                'unique:users,email',
+                'unique:users,user_email',
+                'max:255',
+                'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
+            ]]
+        );
+
+        if($validator->fails()){
+            $errors = $validator->errors();
+            throw new ValidationException($validator, response()->json([
+                'status' => 'error',
+                'errors' => $errors,
+                'message' => 'bad param for email'
+            ]));
+        }
+
+        return true;
+    }
+
+    public static function validateEmailForExists($email){
+        $validator = Validator::make(
+            ['email' => $email],
+            ['email' => [
+                'required',
+                'email',
                 'max:255',
                 'regex:/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/',
             ]]
@@ -36,7 +59,7 @@ class ValidateAuthDatas
     public static function validateNames($name){
         $validator = Validator::make(
             ['name' => $name],
-            ['name' => 'required|string|min:3|max:20|regex:/^[a-zA-Z]+$/']
+            ['name' => 'required|string|min:3|max:20|regex:/^[a-zA-Z\s]+$/']
         );
 
         if($validator->fails()){

@@ -56,8 +56,8 @@ class User extends Model
     // $user->save();
 
     // get timestamps : 
-    public function getCreatedAtColumn() { return $this->created_at; }
-    public function getUpdatedAtColumn() { return $this->updated_at; }
+    public function getCreatedAtColumn() { return 'created_at'; }
+    public function getUpdatedAtColumn() { return 'updated_at'; }
     // how to use ? :
     // $user = User::find(1) // get user with id 1
     // if($user){

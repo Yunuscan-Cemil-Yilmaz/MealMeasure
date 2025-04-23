@@ -4,16 +4,20 @@ namespace App\Services\Auth;
 
 // models
 use App\Models\Auth\User;
-
+use App\Models\Auth\UserToken;
 // services
 use App\Services\Auth\TokenService;
 use App\Services\Auth\PasswordService;
 use App\Services\Auth\ValidateAuthDatas;
-
+use App\Services\User\UserService;
+use Exception;
 // laravel utilities
 use Illuminate\Validation\ValidationException;
+use Illuminate\Database\QueryException;
 
-class LoginService
+use function PHPUnit\Framework\isEmpty;
+
+class LoginService extends UserService
 {
     protected $passwordService;
     protected $userModel;
@@ -54,7 +58,7 @@ class LoginService
                     'message' => 'invalid credentials',
                 ], 401);
             }
-        }catch(\Exception $e){
+        }catch(QueryException $e){
             return response()->json([
                 'status' => 500,
                 'message' => 'internal server error',
@@ -62,21 +66,14 @@ class LoginService
         }
     }
 
-    public function login($email, $password){
+    public function login($email, $password, $longTerm=false){
         try{
-            $valEmail = $this->validate->validateEmail($email);
-            $valPassword = $this->validate->validatePassword($password);
+            $this->validate->validateEmailForExists($email);
+            $this->validate->validatePassword($password);
 
-            if($valEmail && $valPassword){
-                $result = $this->loginProcess($email, $password);
-                return $result;
-            }else { 
-                return response()->json([
-                    'status' => 422,
-                    'errors' => 'bad params',
-                    'message' => 'invalid parameters',
-                ], 422);
-            }
+            if($longTerm) $result = $this->loginProcess($email, $password, true);
+            else $result = $this->loginProcess($email, $password);
+            return $result;
         }catch (ValidationException $e){
             return response()->json([
                 'status' => 422,
@@ -88,25 +85,68 @@ class LoginService
 
 
     // autologin
-    private function autoLoginProcess($email){
-
+    private function autoLoginProcess($userId, $email, $token){
+        $checkToken = $this->tokenService->checkUserToken($token, $userId, $email);
+        if($checkToken){
+            $user = $this->userModel->where('user_id', $userId)->first();
+            if(!$user){
+                return response()->json([
+                    'status' => 400,
+                    'message' => 'user not found',
+                ], 400);
+            }
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ], 200);
+        }else {
+            return null;
+        }
     }
 
-    public function autoLogin($email){
-
+    public function autoLogin($userId, $email, $token){
+        try{
+            $this->validate->validateEmailForExists($email);
+        }catch (ValidationException $e){
+            return response()->json([
+                'status' => 422,
+                'message' => 'validation error',
+                'errors' => $e->errors()
+            ]);
+        }
+        if(empty($userId) || empty($email) || empty($token)){
+            return response()->json([
+                'status' => 422,
+                'message' => 'validation error',
+            ], 422);
+        }
+        try{
+            $result = $this->autoLoginProcess($userId, $email, $token);
+            return $result;
+        }catch (QueryException $e){
+            return response()->json([
+                'status' => 500,
+                'message' => 'internal server error',
+            ], 500);
+        }
     }
 
     // logout
-    private function logoutProcess(){
-
+    private function logoutProcess($userId){
+        UserToken::where('user_id', $userId)->delete();
     }
 
-    public function logout(){
-        
-    }
-
-    // check if user is logged in
-    public function isLoggedInProcess(){
-
+    public function logout($userId){
+        $checkExists = $this->isUserExistsById($userId);
+        if($checkExists){
+            try{
+                $this->logoutProcess($userId);
+                return true;
+            }catch(Exception $e){
+                return false;
+            }
+        }else {
+            return false;
+        }
     }
 }
