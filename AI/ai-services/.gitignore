@@ -28,3 +28,6 @@ pip-wheel-metadata/
 # geçici dosyalar
 *.bak
 *.tmp
+
+# ignore dataset
+dataset/
