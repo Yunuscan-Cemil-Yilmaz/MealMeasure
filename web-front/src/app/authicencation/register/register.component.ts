@@ -17,11 +17,15 @@ export class RegisterComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
-
+  
 
   constructor(private router:Router) { }
 
   ngOnInit(): void {
+  }
+
+  goToLogIn(){
+    this.router.navigate(['/login'])
   }
 
   submit(): void {

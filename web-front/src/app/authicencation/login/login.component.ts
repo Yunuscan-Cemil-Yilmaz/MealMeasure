@@ -32,7 +32,7 @@ export class LoginComponent implements OnInit {
   submit(){ }
 
   goToSignUp(){
-    this.router.navigate(['/sign-up'])
+    this.router.navigate(['/register'])
   }
   
 }

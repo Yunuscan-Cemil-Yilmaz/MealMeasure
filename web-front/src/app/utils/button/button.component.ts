@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 
 @Component({
-  selector: '.utilty-button',
+  selector: 'app-utilty-button',
   templateUrl: './button.component.html',
   styleUrls: ['./button.component.scss']
 })

@@ -41,11 +41,31 @@
     font-family: sans-serif;
     font-size: 28px;
     font-weight: bold;
-    margin-top: 3rem;
-    margin-bottom: 3rem;
+    margin-top: 5rem;
+    margin-bottom: 1rem;
     line-height: 1.4;
   }
+
+.signup-login-text {
+    color: #aaa;
+    font-size: 14px;
+    text-align: center;
+    margin-top: 1rem;
+    margin-bottom: 2rem;
   
+    .log-in-action {
+      font-weight: bold;  
+      color: #28a0ff;
+      cursor: pointer;
+      margin-left: 4px;
+      font-weight: 500;
+  
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+
   app-input-text {
     width: 100%;
   }
@@ -84,7 +104,7 @@
   }
 
   .utilty-button{
-    margin-top: 2 rem;
+    margin-top: 2rem;
   }
   
   
