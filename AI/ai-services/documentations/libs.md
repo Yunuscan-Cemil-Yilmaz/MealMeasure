@@ -5,3 +5,4 @@ pip install flask requests pillow
 pip install torch torchvision transformers
 pip install keras numpy tensorflow
 pip install icrawler
+pip install pillow requests beautifulsoup4

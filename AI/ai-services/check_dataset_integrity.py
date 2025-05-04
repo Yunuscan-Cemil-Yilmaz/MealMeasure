@@ -42,12 +42,32 @@ def check_duplicate_images(folder_path):
     for file_hash, paths in hash_map.items():
         if len(paths) > 1:
             has_duplicates = True
-            print(f"\n🔁 Duplicate bulundu ({len(paths)} kopya):")
+            print(f"\n🔁 Duplicate içerik bulundu ({len(paths)} kopya):")
             for p in paths:
                 print(f"  → {p}")
 
     if not has_duplicates:
         print("✅ Aynı içerikte görsel bulunamadı.")
+
+def check_duplicate_filenames(folder_path):
+    print(f"\n🧾 Aynı isimli dosya kontrol ediliyor: {folder_path}")
+    name_map = defaultdict(list)
+
+    for fname in os.listdir(folder_path):
+        if fname.lower().endswith((".jpg", ".jpeg")):
+            base_name = os.path.splitext(fname)[0].lower()  # örn: 000022
+            name_map[base_name].append(fname)
+
+    has_duplicates = False
+    for base, files in name_map.items():
+        if len(files) > 1:
+            has_duplicates = True
+            print(f"❗ Aynı isimli farklı uzantılı dosyalar bulundu: {base}")
+            for f in files:
+                print(f"  → {f}")
+    
+    if not has_duplicates:
+        print("✅ Aynı isimli dosya bulunamadı.")
 
 def main():
     dataset_dir = "dataset"
@@ -76,6 +96,7 @@ def main():
                     if os.path.isdir(full_path):
                         check_missing_images(full_path, expected)
                         check_duplicate_images(full_path)
+                        check_duplicate_filenames(full_path)
             else:
                 folder_name = input("Klasör adı (-1 ile iptal): ").strip()
                 if folder_name == "-1":
@@ -85,6 +106,7 @@ def main():
                 if os.path.isdir(full_path):
                     check_missing_images(full_path, expected)
                     check_duplicate_images(full_path)
+                    check_duplicate_filenames(full_path)
                 else:
                     print("❌ Geçersiz klasör ismi.")
         else:
