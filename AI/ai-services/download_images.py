@@ -17,8 +17,8 @@ food_list = [
     "Döner", "İçli Köfte", "İskender Kebap", "Karnıyarık", "Kısır",
     "Lahmacun", "Mantı", "Menemen", "Mercimek Çorbası", "Pilav",
     "Pide", "Simit", "Yaprak Sarması", "Domates Çorbası", "Ezo Gelin Çorbası",
-    "Yayla Çorbası", "Taze Fasulye", "Kabak Dolması", "Patates Dolması", "Güveç",
-    "Kumpir", "Su Böreği", "Çikolatalı Pasta", "Yoğurt", "Cacık", "Yeşil Salata",
+    "Yayla Çorbası", "Taze Fasulye", "Kabak Dolması", "Güveç",
+    "Kumpir", "Su Böreği", "Çikolatalı Pasta", "Cacık", "Yeşil Salata",
     "Fırın Tavuk", "Pişi", "Kuymak", "Balık Izgara", "Balık Tava", "Köfte",
     "Aşure", "Sütlaç", "Künefe", "Tulumba Tatlısı", "Patates Kızartması", "Kuru Fasulye",
     "Et Sote"
