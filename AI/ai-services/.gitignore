@@ -34,3 +34,6 @@ dataset/
 
 # ignnore output files
 /output/
+
+# ignore .env(for keys)
+.env
