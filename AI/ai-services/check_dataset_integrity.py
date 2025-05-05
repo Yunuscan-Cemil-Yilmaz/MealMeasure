@@ -1,11 +1,15 @@
 from PIL import Image
 import os
-import hashlib
+import imagehash
 from collections import defaultdict
 
 def calculate_hash(file_path):
-    with open(file_path, 'rb') as f:
-        return hashlib.sha256(f.read()).hexdigest()
+    try:
+        with Image.open(file_path) as img:
+            return str(imagehash.average_hash(img))
+    except Exception as e:
+        print(f"Hash hesaplama hatası ({file_path}): {e}")
+        return None
 
 def check_missing_images(folder_path, expected_count):
     print(f"\n📂 Klasör: {folder_path}")
@@ -32,11 +36,9 @@ def check_duplicate_images(folder_path):
         for fname in files:
             if fname.lower().endswith((".jpg", ".jpeg")):
                 full_path = os.path.join(root, fname)
-                try:
-                    file_hash = calculate_hash(full_path)
+                file_hash = calculate_hash(full_path)
+                if file_hash:
                     hash_map[file_hash].append(full_path)
-                except Exception as e:
-                    print(f"Hata ({fname}): {e}")
 
     has_duplicates = False
     for file_hash, paths in hash_map.items():
@@ -50,12 +52,11 @@ def check_duplicate_images(folder_path):
         print("✅ Aynı içerikte görsel bulunamadı.")
 
 def check_duplicate_filenames(folder_path):
-    print(f"\n🧾 Aynı isimli dosya kontrol ediliyor: {folder_path}")
+    print(f"\n🗏️ Aynı isimli dosya kontrol ediliyor: {folder_path}")
     name_map = defaultdict(list)
-
     for fname in os.listdir(folder_path):
         if fname.lower().endswith((".jpg", ".jpeg")):
-            base_name = os.path.splitext(fname)[0].lower()  # örn: 000022
+            base_name = os.path.splitext(fname)[0].lower()
             name_map[base_name].append(fname)
 
     has_duplicates = False
@@ -65,7 +66,7 @@ def check_duplicate_filenames(folder_path):
             print(f"❗ Aynı isimli farklı uzantılı dosyalar bulundu: {base}")
             for f in files:
                 print(f"  → {f}")
-    
+
     if not has_duplicates:
         print("✅ Aynı isimli dosya bulunamadı.")
 
@@ -85,7 +86,7 @@ def main():
 
         elif secim in ["1", "2"]:
             try:
-                expected = int(input("Klasör başına kaç görsel olması gerekiyor? (örn: 75): ").strip())
+                expected = int(input("Klasör başına kaç görsel olması gerekiyor? ("))
             except ValueError:
                 print("❌ Geçersiz sayı girdiniz.")
                 continue

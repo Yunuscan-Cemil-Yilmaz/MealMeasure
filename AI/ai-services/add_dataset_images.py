@@ -50,17 +50,31 @@ def search_google_images(query, existing_paths, max_results=20):
 
 def main():
     dataset_dir = "dataset"
-    folder = input("Klasör adı (örnek: Lahmacun): ").strip()
-    search_term = input("Google'da aramak için bir kelime veya cümle girin: ").strip()
-    try:
-        expected_count = int(input("Bu klasörde kaç resim olması gerekiyor?: ").strip())
-    except ValueError:
-        print("❌ Geçersiz sayı girdiniz.")
+    print("🆕 Yeni bir kategori (field) oluşturmak ister misiniz?")
+    create_new = input("(e/h): ").strip().lower()
+
+    if create_new == "e":
+        folder = input("Yeni kategori için klasör adı (örnek: Karniyarik): ").strip()
+        folder_path = os.path.join(dataset_dir, folder)
+        os.makedirs(folder_path, exist_ok=True)
+        print(f"📁 Yeni klasör oluşturuldu: {folder_path}")
+    elif create_new == "h":
+        folder = input("Var olan klasör adı (örnek: Karniyarik): ").strip()
+        folder_path = os.path.join(dataset_dir, folder)
+        if not os.path.isdir(folder_path):
+            print("❌ Klasör bulunamadı.")
+            return
+        print("ℹ️ Mevcut bir kategoriye resim ekleniyor.")
+        print("⚠️ En verimli kullanım için tek seferde maksimum 10 görsel eklemeniz önerilir.")
+    else:
+        print("❌ Geçersiz giriş.")
         return
 
-    folder_path = os.path.join(dataset_dir, folder)
-    if not os.path.isdir(folder_path):
-        print("❌ Klasör bulunamadı.")
+    search_term = input("Google'da aramak için bir kelime veya cümle girin: ").strip()
+    try:
+        expected_total = int(input("Toplam kaç görsel olması gerekiyor?: ").strip())
+    except ValueError:
+        print("❌ Geçersiz sayı girdiniz.")
         return
 
     existing_files = sorted([
@@ -73,7 +87,7 @@ def main():
         if base.isdigit():
             existing_numbers.add(int(base))
 
-    missing_numbers = [i for i in range(1, expected_count + 1) if i not in existing_numbers]
+    missing_numbers = [i for i in range(1, expected_total + 1) if i not in existing_numbers]
     if not missing_numbers:
         print("✅ Eksik görsel yok.")
         return
