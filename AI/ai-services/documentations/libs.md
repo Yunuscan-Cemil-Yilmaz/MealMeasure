@@ -7,3 +7,4 @@ pip install keras numpy tensorflow
 pip install icrawler
 pip install pillow requests beautifulsoup4
 pip install imagehash
+pip install torch torchvision matplotlib scikit-learn tqdm pillow
