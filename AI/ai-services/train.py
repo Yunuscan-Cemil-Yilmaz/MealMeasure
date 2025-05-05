@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 import torch.optim as optim
 from utils.dataset_loader import get_dataloaders
-from model.resnet_finetune import get_resnet50_model
+from models.resnet_finetune import get_resnet50_model
 import os
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
