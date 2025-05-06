@@ -9,3 +9,6 @@ pip install pillow requests beautifulsoup4
 pip install imagehash
 pip install torch torchvision matplotlib scikit-learn tqdm pillow
 pip install python-dotenv
+pip install rembg
+pip install onnxruntime
+pip install timm opencv-python
