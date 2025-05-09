@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 
 
 @Component({
@@ -19,7 +20,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword: string = '';
   
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http :HttpClient) { }
 
   ngOnInit(): void {
   }
@@ -29,11 +30,44 @@ export class RegisterComponent implements OnInit {
   }
 
   submit(): void {
+    
+    const userData = {
+      email: this.email,
+      password: this.password,
+      passwordAgain: this.confirmPassword,
+      name: this.firstName,
+      surname: this.lastName,
+      nickname: this.username
+    };
 
-    if (this.password !== this.confirmPassword) {
-      console.error("Passwords do not match.");
-      return;
-    }
+    this.http.post('http://127.0.0.1:8000/api/register',userData).subscribe({
+      next: (res: any) => {
+        console.log("successfully sign up",res);
+        this.router.navigate(['/insight'])},
+      error: (err) => {console.log("something went wrong",err)}
+    });
+    
+
+  }
+}    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // togglePasswordAgainVisibility(){
   //   const passwordAgainInput = document.querySelector('.register-password-again-input') as HTMLInputElement
@@ -62,5 +96,4 @@ export class RegisterComponent implements OnInit {
   //     passwordInput.type = 'password';
   //   }
   // }
-  }
-}
+
