@@ -12,3 +12,4 @@ pip install python-dotenv
 pip install rembg
 pip install onnxruntime
 pip install timm opencv-python
+pip install openai
