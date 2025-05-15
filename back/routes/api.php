@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Insight\InsightController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Calendar\CalendarController;
 
 Route::post('/test', [TestController::class, 'test']);
 
@@ -44,13 +45,6 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 
 
-
-
-
-//php artisan make:middleware TokenControl
-//php artisan make:controller Inside/InsideController 
-//php artisan make:class Services/Inside/InsideServices
-
 Route::middleware([TokenControl::class])->group(function() {
     /**
      * @param int age
@@ -63,8 +57,9 @@ Route::middleware([TokenControl::class])->group(function() {
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/settings',[SettingsController::class,'update']);
-    // Route::post('get-meals-cal-from-date', )
-    //home and settings
+
+
+    Route::post('get-meals-cal-from-date', [CalendarController::class, 'getMealsFromDate']);
 
 });
 

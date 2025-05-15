@@ -31,6 +31,12 @@
   
     <div class="info-panel">
       <h2 class="info-title">Selected Day Info</h2>
+      <div *ngIf="mealList.length > 0" class="meal-days-list-div">
+        <div *ngFor="let meal of mealList"> {{ meal.meal_cal }} </div>
+      </div>
+      <div *ngIf="mealList.length <= 0" class="meal-days-list-div error-while-meal-div">
+        <div> Ur not select a date yet or not any meal for this date </div>
+      </div>
       <div class="info-action">📷 Take a Photo</div>
       <div class="info-action">🍽️ Add Calories</div>
       <div class="info-action">📝 Select File From Device</div>

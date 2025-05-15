@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +22,7 @@ export class HomeComponent implements OnInit {
     'Temmuz', 'Ağustos', 'Eylül', 'Ekim', 'Kasım', 'Aralık'
   ];
   selectedDateString: string = ""
+  mealList: any[] = [];
   selectDay(day: number) {
     this.selectedDay = day;
     const choosedDay = day >= 10 ? String(day) : String(`0${day}`); 
@@ -27,6 +30,28 @@ export class HomeComponent implements OnInit {
     const choosedMonth = this.numberOfSelectedMonth >= 10 ? this.numberOfSelectedMonth : `0${this.numberOfSelectedMonth}`
     this.selectedDateString = `${choosedYear}-${choosedMonth}-${choosedDay}`
     console.log(this.selectedDateString);
+
+    const body = {
+      'selected_date': this.selectedDateString
+    };
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
+    const headers = {
+      'auth_token': token || '',
+      'sender_id': String(user.user_id),
+      'sender_email': String(user.user_email),
+    };
+    this.http.post(`${environment.API_URL}${environment.API_GET_CAL_PER_DAY}`, body, { headers }).subscribe({
+      next: (response: any) => {
+        this.mealList = response.response;
+        console.log(this.mealList)
+        console.log(response);
+      },
+      error: (error: any) => {
+        this.mealList = [];
+      }
+    });
   }
 
   goToSettings() {
@@ -34,7 +59,7 @@ export class HomeComponent implements OnInit {
   }
   
 
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http: HttpClient) { }
 
   ngOnInit(): void {
     const today = new Date();
