@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/authicencation/services/authicencation.service';
+
 
 @Component({
   selector: 'app-settings',
@@ -8,51 +10,26 @@ import { Router } from '@angular/router';
 })
 export class SettingsComponent implements OnInit {
 
-  firstName: string = 'John';
-  lastName: string = 'Doe';
-  nickname: string = 'johnd';
-  email: string = 'john@example.com';
-  password: string = 'goddamnpassword';
-  maskedPassword: string = '';
+  firstName: string = '';
+  lastName: string = '';
+  nickname: string = '';
+  email: string = '';
+  userBmi: number = 0;
+  userTdee: number = 0;
   isEditing: boolean = false;
-  isPasswordEditing: boolean = false;
-  userBmi: number = 22.5;
-userTdee: number = 2400;
 
-goToInsight() {
-  this.router.navigate(['/insight']);
-}
-
-
-  constructor(private router: Router) {}
+  constructor(private router: Router,private authService:AuthService) {}
 
   ngOnInit(): void {
-    this.updateMaskedPassword();
-  }
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
 
-  onChangePassword(){
-    this.isPasswordEditing = true
-    this.maskedPassword = this.password
-  }
+    this.firstName = user.user_name || '';
+    this.lastName = user.user_surname || '';
+    this.nickname = user.user_nickname || '';
+    this.email = user.user_email || '';
 
-  onPasswordToggle() {
-    if (this.isPasswordEditing) {
-      // Save işlemi
-      this.isPasswordEditing = false;
-      this.maskedPassword = '•'.repeat(this.password.length);
-    } else {
-      // Change işlemi
-      this.isPasswordEditing = true;
-    }
-  }
-
-  onPasswordInput(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.password = input.value;
-  }
-
-  updateMaskedPassword() {
-    this.maskedPassword = '•'.repeat(this.password.length);
+    this.userBmi = Math.round((user.user_bmi ?? 0) * 100) / 100;
+    this.userTdee = Math.round((user.user_tdee ?? 0) * 100) / 100;
   }
 
   toggleEdit() {
@@ -60,28 +37,40 @@ goToInsight() {
   }
 
   saveChanges() {
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
+
+    user.user_name = this.firstName;
+    user.user_surname = this.lastName;
+    user.user_nickname = this.nickname;
+
+    localStorage.setItem('user', JSON.stringify(user));
+
     this.isEditing = false;
-    console.log('Saved:', {
-      firstName: this.firstName,
-      lastName: this.lastName,
-      nickname: this.nickname
-    });
+    this.authService.updateUserInfo(user.user_name,user.user_surname,user.user_nickname)
   }
 
   logout() {
-    console.log('Log out clicked');
+    localStorage.clear();
+    this.router.navigate(['/login']);
   }
-  onLastNameChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.lastName = input?.value || '';
+
+  goToInsight() {
+    this.router.navigate(['/insight']);
   }
-  onNickNameChange(event: Event) {
-    const input = event.target as HTMLInputElement;
-    this.nickname = input?.value || '';
-  }
+
   onFirstNameChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.firstName = input?.value || '';
   }
-  
+
+  onLastNameChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.lastName = input?.value || '';
+  }
+
+  onNickNameChange(event: Event) {
+    const input = event.target as HTMLInputElement;
+    this.nickname = input?.value || '';
+  }
+
 }

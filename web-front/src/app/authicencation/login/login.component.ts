@@ -1,7 +1,5 @@
 import { Component, OnInit} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import {Router} from '@angular/router'
-import { environment } from 'src/environments/environment';
 import { AuthService } from '../services/authicencation.service';
 
 @Component({
@@ -12,7 +10,7 @@ import { AuthService } from '../services/authicencation.service';
   export class LoginComponent implements OnInit {
     isPasswordVisible: boolean = false;
     
-    constructor(private router: Router, private http: HttpClient,private authService: AuthService) { }
+    constructor(private router: Router,private authService: AuthService) { }
 
     ngOnInit(): void {
     }

@@ -17,10 +17,11 @@ class User extends Model
         'user_surname',
         'user_nickname',
         'user_password',
-        'user_bmi',
+        'user_bmi',                 //where the fuck is_completed
         'user_tdee',
         'user_fav_diet_ids',
         'user_diet_id',
+        'is_completed'
     ];
 
     protected $hidden = [
@@ -29,6 +30,7 @@ class User extends Model
 
     protected $casts = [
         'is_admin' => 'boolean',
+        'is_completed' => 'boolean',
         'user_bmi' => 'double',
         'user_tdee' => 'double',
     ];

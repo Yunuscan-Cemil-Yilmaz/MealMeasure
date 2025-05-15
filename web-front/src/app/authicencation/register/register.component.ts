@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/authicencation.service';
+
 
 
 @Component({
@@ -20,7 +23,7 @@ export class RegisterComponent implements OnInit {
   confirmPassword: string = '';
   
 
-  constructor(private router:Router, private http :HttpClient) { }
+  constructor(private router:Router, private http :HttpClient,private authService: AuthService) { }
 
   ngOnInit(): void {
   }
@@ -40,11 +43,19 @@ export class RegisterComponent implements OnInit {
       nickname: this.username
     };
 
-    this.http.post('http://127.0.0.1:8000/api/register',userData).subscribe({
+    this.http.post(`${environment.API_URL}${environment.API_REGISTER}`,userData).subscribe({
       next: (res: any) => {
-        console.log("successfully sign up",res);
-        this.router.navigate(['/insight'])},
-      error: (err) => {console.log("something went wrong",err)}
+        console.log("Kayıt başarılı", res);
+      
+        if (res.token && res.user) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.authService.setLogin();
+        }
+      
+        this.router.navigate(['/insight']);
+      }
+      
     });
     
 

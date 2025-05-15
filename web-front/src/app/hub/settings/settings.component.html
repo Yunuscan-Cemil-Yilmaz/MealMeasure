@@ -38,19 +38,6 @@
           <input type="text" [value]="email" disabled />
         </div>
   
-        <!-- Password -->
-        <div class="input-row">
-            <input
-              [type]="'text'"
-              [value]="isPasswordEditing ? password : maskedPassword"
-              [disabled]="!isPasswordEditing"
-              (input)="onPasswordInput($event)"
-            />
-            <span class="edit-btn" (click)="onPasswordToggle()">
-              {{ isPasswordEditing ? 'Save' : 'Change' }}
-            </span>
-          </div>
-   
         <!-- BMI and TDEE row -->
     <div class="settings-bmi-tdee-row">
     <span class="settings-label">BMI / TDEE</span>
