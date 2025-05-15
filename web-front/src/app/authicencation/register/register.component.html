@@ -2,11 +2,15 @@
     <div class="auth-area">
         
         <p class="register-sub">Start tracking your meals today</p>
+        <p class="signup-login-text">
+            <span class="log-in-action" (click)="goToLogIn()">Log in</span>
+            or Sign up
+        </p>
         
         <div class="register-wrapper"></div>
 
         <div class="utility-input-text"
-        placeholder="First Name"
+        placeholder="First name"
         type="text"
         (valueChanged)="firstName = $event"></div>
         
@@ -26,7 +30,7 @@
                 (valueChanged)="email = $event"></div>
         
         <div class="utility-input-text register-password-input"
-                placeholder="Password"
+                placeholder="Password"  
                 type="password"
                 (valueChanged)="password = $event"></div>
         
@@ -36,14 +40,14 @@
                 (valueChanged)="confirmPassword = $event"></div>
         
         
-        <div class="utilty-button"
+        <app-utilty-button
         label ="Sign up"
         type="success"
         [disabled]="false"
         [loading]="false"
         (clicked)="submit()"
         >
-        </div>
+        </app-utilty-button>
 
         <div class="agreement-section">
             <p class="agreement-text">by continuing, you agree to our</p>

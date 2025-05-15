@@ -1,0 +1,57 @@
+<div class="settings-component-main-div">
+    <div class="settings-area">
+      <h2>Settings</h2>
+  
+      <div class="profile-section">
+        <!-- First Name -->
+        <div class="input-row">
+          <input
+            type="text"
+            [value]="firstName"
+            [disabled]="!isEditing"
+            (input)="onFirstNameChange($event)"
+          />
+        </div>
+  
+        <!-- Last Name -->
+        <div class="input-row">
+          <input
+            type="text"
+            [value]="lastName"
+            [disabled]="!isEditing"
+            (input)="onLastNameChange($event)"
+          />
+        </div>
+  
+        <!-- Nickname -->
+        <div class="input-row">
+          <input
+            type="text"
+            [value]="nickname"
+            [disabled]="!isEditing"
+            (input)="onNickNameChange($event)"
+          />
+        </div>
+  
+        <!-- Email -->
+        <div class="input-row">
+          <input type="text" [value]="email" disabled />
+        </div>
+  
+        <!-- BMI and TDEE row -->
+    <div class="settings-bmi-tdee-row">
+    <span class="settings-label">BMI / TDEE</span>
+    <span class="settings-value">{{ userBmi }} / {{ userTdee }}</span>
+    <span class="settings-change-link" (click)="goToInsight()">Change</span>
+    </div>
+  
+  
+      <!-- Buttons -->
+      <div class="button-row">
+        <button *ngIf="!isEditing" (click)="toggleEdit()">Edit</button>
+        <button *ngIf="isEditing" (click)="saveChanges()">Save</button>
+        <button (click)="logout()">Log Out</button>
+      </div>
+    </div>
+  </div>
+  

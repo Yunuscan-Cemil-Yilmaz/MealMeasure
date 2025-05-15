@@ -1,13 +1,11 @@
-<button 
-class="btn"
-[ngClass]="type"
-[disabled]="disabled"
-(clicked)="handleClick()"
->
- <ng-container *ngIf="!loading; else loadingTpl">
-   {{ label }}
- </ng-container>
- <ng-template #loadingTpl>
+  <button
+  [ngClass]="type"
+  [disabled]="disabled"
+  (click)="handleClick()">
+  <ng-container *ngIf="!loading; else loadingTpl">
+    {{ label }}
+  </ng-container>
+  <ng-template #loadingTpl>
     loading...
- </ng-template>
+  </ng-template>
 </button>

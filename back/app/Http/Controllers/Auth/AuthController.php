@@ -56,7 +56,7 @@ class AuthController extends Controller
                 ], $res['status']);
             }catch(\Exception $e){
                 return response()->json([
-                    'status' => 500,
+                    'status' => 500, // $a['status];
                     'message' => 'error while create admin user process: ' . $e->getMessage()
                 ]);
             }

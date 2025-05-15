@@ -72,9 +72,25 @@
       
     
 }
+.social-cont{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  .social-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+
 
 .social-btn {
-    width: 100%;
+    width: 90%;
     background-color: #2c2c2e;
     color: white;
     border: none;
@@ -98,6 +114,10 @@
     &:hover {
       background-color: #3a3a3d;
     }
+  }
+
+  .social-cont{
+
   }
   
   .agreement-section {
@@ -127,6 +147,8 @@
       }
     }
   }
+
+
   
   
 

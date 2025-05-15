@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './authicencation/services/authicencation.service';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'web-front';
-
-  
+  constructor(private authService:AuthService){}
+  ngOnInit(): void{
+    this.authService.checkSession();
+  }
   
 }

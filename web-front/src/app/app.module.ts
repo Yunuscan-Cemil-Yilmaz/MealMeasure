@@ -8,12 +8,14 @@ import { DietsModule } from './diets/diets.module';
 import { MealsModule } from './meals/meals.module';
 import { SharedModule } from './shared/shared.module';
 import { UtilsModule } from './utils/utils.module';
+import { HubModule } from './hub/hub.module';
 
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
+    HubModule,
     AuthicencationModule,
     DietsModule,
     MealsModule,

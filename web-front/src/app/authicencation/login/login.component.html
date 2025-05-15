@@ -18,19 +18,20 @@
         type="password"
         (valueChanged)="password = $event"></div>
 
-        <div class="utilty-button"
+        <app-utilty-button
         label ="Log in"
         type="success"
         [disabled]="false"
         [loading]="false"
         (clicked)="submit()"
         >
-        </div>
+        </app-utilty-button>
 
         <div class="or-line">
             <span>Or</span>
           </div>
         
+          <div class="social-cont">
           <button class="social-btn facebook">
             <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/facebook/facebook-original.svg" alt="Facebook" />
             Continue With Facebook
@@ -44,6 +45,7 @@
             height="20" />
             Continue With Google
           </button>
+        </div>
           
         
           <div class="agreement-section">
@@ -52,7 +54,7 @@
               <a href="#">term of service</a>
               <span class="dot">·</span>
               <a href="#">privacy policy</a>
-              <span class="dot">·</span>
+              <span class="dot">·</span>  
               <a href="#">content policies</a>
             </div>
           </div>

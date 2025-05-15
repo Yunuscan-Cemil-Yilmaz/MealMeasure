@@ -5,8 +5,12 @@ use Illuminate\Support\Facades\Route;
 
 
 
+use App\Http\Middleware\TokenControl;
 use App\Http\Controllers\TestController;
 use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Insight\InsightController;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Settings\SettingsController;
 
 Route::post('/test', [TestController::class, 'test']);
 
@@ -42,4 +46,30 @@ Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 /**
  * @param user_id
  */
-Route::post('/logout', [AuthController::class, 'logout']);
+
+
+
+
+
+//php artisan make:middleware TokenControl
+//php artisan make:controller Inside/InsideController 
+//php artisan make:class Services/Inside/InsideServices
+
+Route::middleware([TokenControl::class])->group(function() {
+    Route::post('/insight',[InsightController::class,'calculate']);
+    /**
+     * @param int age
+     * @param string gender
+     * @param int weight
+     * @param int height 
+     * @param string activityLevel 
+     */
+
+    Route::post('/logout', [AuthController::class, 'logout']);
+    Route::post('/settings',[SettingsController::class,'update']);
+    Route::post('/home',[HomeController::class,'//']);
+    //home and settings
+
+});
+
+
