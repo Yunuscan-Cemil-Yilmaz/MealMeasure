@@ -19,7 +19,6 @@ def get_calorie_per_cm3(meal_label: str):
         cursor.execute(sql, (meal_label,))
         row = cursor.fetchone()
         if row:
-            # volume_cal'ı float olarak döndür
             return float(row[0])
         return None
     finally:
