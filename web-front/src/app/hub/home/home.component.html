@@ -4,11 +4,11 @@
         <button class="settings-button" (click)="goToSettings()"> <i class="fa-solid fa-bars"></i></button>
     <div class="calendar-panel">
       <div class="calendar-header">
-        <button class="nav-btn">‹</button>
-        <span class="month-year">May 2025</span>
-        <button class="nav-btn">›</button>
+        <button class="nav-btn" (click)="prevMonth()">‹</button>
+        <span class="month-year">{{ selectedMonth }} {{ selectedYear }}</span>
+        <button class="nav-btn" (click)="nextMonth()">›</button>
       </div>
-      <div class="calendar-days">
+      <!-- <div class="calendar-days">
         <div class="day-name">Mon</div>
         <div class="day-name">Tue</div>
         <div class="day-name">Wed</div>
@@ -16,12 +16,13 @@
         <div class="day-name">Fri</div>
         <div class="day-name">Sat</div>
         <div class="day-name">Sun</div>
-      </div>
+      </div> -->
       <div class="calendar-grid">
         <div 
           class="day" 
           *ngFor="let day of days" 
           [class.selected]="selectedDay === day"
+          [attr.data-calendar-date]="selectedDateString"
           (click)="selectDay(day)">
           {{ day }}
         </div>
@@ -32,7 +33,7 @@
       <h2 class="info-title">Selected Day Info</h2>
       <div class="info-action">📷 Take a Photo</div>
       <div class="info-action">🍽️ Add Calories</div>
-      <div class="info-action">📝 Add Note</div>
+      <div class="info-action">📝 Select File From Device</div>
     </div>
   </div>
 </div>
