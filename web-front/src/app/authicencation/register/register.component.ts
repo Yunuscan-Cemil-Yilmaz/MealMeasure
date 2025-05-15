@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../services/authicencation.service';
+
 
 
 @Component({
@@ -17,19 +21,64 @@ export class RegisterComponent implements OnInit {
   email: string = '';
   password: string = '';
   confirmPassword: string = '';
+  
 
-
-  constructor(private router:Router) { }
+  constructor(private router:Router, private http :HttpClient,private authService: AuthService) { }
 
   ngOnInit(): void {
   }
 
-  submit(): void {
+  goToLogIn(){
+    this.router.navigate(['/login'])
+  }
 
-    if (this.password !== this.confirmPassword) {
-      console.error("Passwords do not match.");
-      return;
-    }
+  submit(): void {
+    
+    const userData = {
+      email: this.email,
+      password: this.password,
+      passwordAgain: this.confirmPassword,
+      name: this.firstName,
+      surname: this.lastName,
+      nickname: this.username
+    };
+
+    this.http.post(`${environment.API_URL}${environment.API_REGISTER}`,userData).subscribe({
+      next: (res: any) => {
+        console.log("Kayıt başarılı", res);
+      
+        if (res.token && res.user) {
+          localStorage.setItem('token', res.token);
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.authService.setLogin();
+        }
+      
+        this.router.navigate(['/insight']);
+      }
+      
+    });
+    
+
+  }
+}    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
   // togglePasswordAgainVisibility(){
   //   const passwordAgainInput = document.querySelector('.register-password-again-input') as HTMLInputElement
@@ -58,5 +107,4 @@ export class RegisterComponent implements OnInit {
   //     passwordInput.type = 'password';
   //   }
   // }
-  }
-}
+

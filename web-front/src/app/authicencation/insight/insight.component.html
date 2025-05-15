@@ -1,0 +1,62 @@
+<div class="register-component-main-div">
+    <div class="auth-area">
+        
+        <p class="insight-sub">Help Us To Personalize Your Experience</p>
+        
+        
+        <div class="insight-wrapper "></div>
+
+        <div class="age-gender-cont">
+                
+            
+            <div class="utility-input-text"
+            placeholder="Age"
+            type="text"
+            (valueChanged)="age = $event"></div>
+            
+            <div class="select-wrapper input-wrapper">
+                <select (change)="onGenderChange($event)">
+                <option value="" disabled selected class="opt1">Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+                </select>
+            </div>
+
+        </div>
+        <div class="utility-input-text"
+                placeholder="weight"
+                type="weight"
+                (valueChanged)="weight = $event"></div>
+        
+        <div class="utility-input-text"
+                placeholder="Height"
+                type="height"
+                (valueChanged)="height = $event"></div>
+        
+
+        <div class="active-wrapper select-wrapper">
+            <select (change)="onActivityLevelChange($event)">
+                <option value="" disabled selected>Select Activity Level</option>
+                <option value="1.2">Sedentary</option>
+                <option value="1.375">Lightly Active</option>
+                <option value="1.55">Moderately Active</option>
+                <option value="1.725">Very Active</option>
+                <option value="1.9">Extra Active</option>
+            </select>
+            </div>
+         
+              
+        <app-utilty-button
+        label ="Go"
+        type="success"
+        [disabled]="false"
+        [loading]="false"
+        (clicked)="submit()"
+        >
+        <button (clicked)="submit()"></button>
+        </app-utilty-button>
+          
+
+    </div>
+</div>
+

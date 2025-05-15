@@ -21,3 +21,6 @@ return new class extends Migration
         });
     }
 };
+
+
+//bir migrade dosyasını rolback yapmadan değişiklik yapamazsın search for it 

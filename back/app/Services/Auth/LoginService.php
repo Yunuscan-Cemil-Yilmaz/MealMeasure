@@ -38,7 +38,7 @@ class LoginService extends UserService
 
     private function loginProcess($email, $password, bool $longTerm=false){
         try{
-            $user = $this->userModel->where('user_email', $email)->first();
+            $user = $this->userModel->where('user_email', $email)->first(); //orm
             if(!$user){
                 return response()->json([
                     'status' => 400,
@@ -76,7 +76,7 @@ class LoginService extends UserService
             return $result;
         }catch (ValidationException $e){
             return response()->json([
-                'status' => 422,
+                'status' => 422,        //dont make same mistake only use objects in controller 
                 'message' => 'validation error',
                 'errors' => $e->errors()
             ]);

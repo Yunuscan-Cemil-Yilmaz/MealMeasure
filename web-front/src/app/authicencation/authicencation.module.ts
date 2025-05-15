@@ -6,24 +6,27 @@ import { RegisterComponent } from './register/register.component';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from '../app-routing.module';
 import { UtilsModule } from '../utils/utils.module';
+import { InsightComponent } from './insight/insight.component';
 
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    InsightComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     CommonModule,
-    UtilsModule
+    UtilsModule,
   ],
   exports: [
     LoginComponent,
-    RegisterComponent
+    RegisterComponent,
+    InsightComponent
   ]
 })
 export class AuthicencationModule { }
