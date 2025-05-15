@@ -148,6 +148,38 @@
       }
     
   }
+
+
+  .meal-days-list-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div{
+      width: 75%;
+      height: 40px;
+      background-color: rgb(46, 46, 46);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 5px;
+      &:hover{
+        background-color: #28d47c;
+        cursor: pointer;
+      }
+      &:last-child{
+        margin-bottom: 25px !important;
+      }
+    }
+
+    &.error-while-meal-div{
+      div{
+        color: red !important;
+        height: 75px;
+      }
+    }
+  }
   
 
 }

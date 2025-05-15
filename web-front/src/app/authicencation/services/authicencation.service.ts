@@ -78,6 +78,7 @@ export class AuthService{
               localStorage.setItem('user', JSON.stringify(user));
       
               alert('insight info saved');
+              window.location.reload();
             }
           },
           error: (err) => {

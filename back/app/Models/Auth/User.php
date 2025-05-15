@@ -17,7 +17,7 @@ class User extends Model
         'user_surname',
         'user_nickname',
         'user_password',
-        'user_bmi',                 //where the fuck is_completed
+        'user_bmi',             
         'user_tdee',
         'user_fav_diet_ids',
         'user_diet_id',
