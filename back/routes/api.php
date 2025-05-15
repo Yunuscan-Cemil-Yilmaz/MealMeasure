@@ -21,10 +21,10 @@ Route::post('/test', [TestController::class, 'test']);
  * @param name
  * @param surname
  * @param nickname
- * @param create_admin \\ true(1) or false(0)
- * @param token // not required \\ if doesnt admin user
- * @param admin_id // not required \\ if doesnt admin user
- * @param admin_email // not required \\ if doesnt admin user
+ * @param create_admin => true(1) or false(0)
+ * @param token => not required | if doesnt admin user
+ * @param admin_id => not required | if doesnt admin user
+ * @param admin_email => not required | if doesnt admin user
  *
 */
 Route::post('/register', [AuthController::class, 'register']);
@@ -43,10 +43,6 @@ Route::post('/login', [AuthController::class, 'login']);
  */
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 
-/**
- * @param user_id
- */
-
 
 
 
@@ -56,7 +52,6 @@ Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 //php artisan make:class Services/Inside/InsideServices
 
 Route::middleware([TokenControl::class])->group(function() {
-    Route::post('/insight',[InsightController::class,'calculate']);
     /**
      * @param int age
      * @param string gender
@@ -64,10 +59,11 @@ Route::middleware([TokenControl::class])->group(function() {
      * @param int height 
      * @param string activityLevel 
      */
+    Route::post('/insight',[InsightController::class,'calculate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/settings',[SettingsController::class,'update']);
-    Route::post('/home',[HomeController::class,'//']);
+    // Route::post('get-meals-cal-from-date', )
     //home and settings
 
 });
