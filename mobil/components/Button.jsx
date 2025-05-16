@@ -1,16 +1,11 @@
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import React from 'react';
 
-const Button = ({ color, text, topM = 20, botM = 20, width = "80%", textColor = "#000", url = null, navigation }) => {
-  const handlePress = () => {
-    if (url && navigation) {
-      navigation.navigate(url);
-    }
-  };
+const Button = ({ func=null, color, text, topM = 20, botM = 20, width = "80%", textColor = "#000", url = null, navigation }) => {
 
   return (
     <TouchableOpacity 
-      onPress={handlePress}
+      onPress={func}
       style={[
         styles.button, 
         { 

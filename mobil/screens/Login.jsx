@@ -5,11 +5,35 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
+import axios from 'axios';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+
+    const handleLogin = async () => {
+ 
+    const data = {
+        email: email,
+        password: password,
+
+    };
+
+    try {
+        const response = await axios.post("http://192.168.1.101:8000/api/login", data);
+        alert("Login Success:");
+        await AsyncStorage.setItem('user', JSON.stringify(response.data))
+
+   console.log(response.data)
+        navigation.navigate("Insight");
+    } catch (error) {
+        console.error("Register Failed:", error.response?.data || error.message);
+        const message = error.response?.data?.message || "Login failed!";
+        alert(message);
+    }
+};
 
     return (
         <SafeAreaView style={styles.container}>
@@ -23,7 +47,7 @@ const Login = ({navigation}) => {
             </Input>
             <Input isIcon={true} placeholder={"Password"} unVisible={true} placeholderTextColor={"#b0b0b0"} value={password} valueSet={setPassword} iconName={"lock-closed"} >
             </Input>
-                <Button color={"#7bebd4"} botM={20} topM={20} text={"Log in"} width='80%' textColor='black'></Button>
+                <Button func={handleLogin} color={"#7bebd4"} botM={20} topM={20} text={"Log in"} width='80%' textColor='black'></Button>
 
             <View style={styles.dividerContainer}>
                 <View style={styles.line} />

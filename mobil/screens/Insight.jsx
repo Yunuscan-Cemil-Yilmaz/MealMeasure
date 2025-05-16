@@ -6,6 +6,8 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import Select from '../components/Select';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const Insight = ({ navigation }) => {
 
@@ -14,6 +16,47 @@ const Insight = ({ navigation }) => {
     const [age, setAge] = useState('');
     const [weight, setWeight] = useState('');
     const [height, setHeight] = useState('');
+
+    const handleInsight = async () => {
+
+        console.log(activityLevel, "activitylevel")
+        const data = {
+            gender: gender,
+            activity_factor: activityLevel,
+            age: age,
+            weight: weight,
+            height: height,
+
+        };
+
+
+        const user = await AsyncStorage.getItem('user')
+     
+        const userData = user ? JSON.parse(user) : null
+
+        try {
+            const response = await axios.post("http://192.168.1.101:8000/api/insight", data, {
+                headers: {
+                    'auth_token': userData.token || '',
+                    'sender_id': String(userData.user.user_id),
+                    'sender_email': String(userData.user.user_email),
+                }
+
+            }
+
+            );
+
+
+            navigation.navigate("Settings");
+        } catch (error) {
+            console.error("İnsight Failed:", error.response?.data || error.message);
+            const message = error.response?.data?.message || "İnsight failed!";
+            alert(message);
+        }
+    };
+
+
+
 
     return (
         <SafeAreaView style={styles.container}>
@@ -28,23 +71,30 @@ const Insight = ({ navigation }) => {
             </Input>
 
             <View style={{ zIndex: 1000 }}>
-        <Select
-          title="Select Gender" 
-          data={["Male", "Female", "Other"]} 
-          onSelect={(value) => setGender(value)} 
-          zIndex={1000}
-        />
-      </View>
+                <Select
+                    title="Select Gender"
+                    data={[{ label: "Female", value: "female" },
+                    { label: "Man", value: "man" }
+                    ]}
+                    onSelect={(value) => setGender(value)}
+                    zIndex={1000}
+                />
+            </View>
 
-      <View style={{ zIndex: 500 }}>
-        <Select
-          title="Select Activity Level" 
-          data={["Always", "Often", "Never"]} 
-          onSelect={(value) => setActivityLevel(value)} 
-          zIndex={500}
-        />
-      </View>
-            <Button color={"#7bebd4"} botM={20} topM={20} text={"Log in"} width='80%' textColor='black'></Button>
+            <View style={{ zIndex: 500 }}>
+                <Select
+                    title="Select Activity Level"
+                    data={[
+                        { label: "Sedentary", value: 1.2 },
+                        { label: "Lightly Active", value: 1.375 },
+                        { label: "Moderately Active", value: 1.55 },
+                        { label: "Very Active", value: 1.725 },
+                        { label: "Extra Active", value: 1.9 },
+                    ]} onSelect={(value) => setActivityLevel(value)}
+                    zIndex={500}
+                />
+            </View>
+            <Button func={handleInsight} color={"#7bebd4"} botM={20} topM={20} text={"Let's Go"} width='80%' textColor='black'></Button>
 
 
 

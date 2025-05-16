@@ -6,9 +6,7 @@ import { StyleSheet, View, SafeAreaView } from 'react-native';
 const Select = ({ title = "Select Option", data = [], onSelect, defaultValue = "", zIndex }) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState(defaultValue);
-  const [items, setItems] = useState(
-    data.map((item) => ({ label: item, value: item }))
-  );
+const [items, setItems] = useState(data);
 
   const handleChange = (value) => {
     setValue(value);

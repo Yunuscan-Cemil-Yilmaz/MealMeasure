@@ -5,37 +5,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 import Insight from './screens/Insight';
 import Settings from './screens/Settings';
+import AppNavigator from './route/AppNavigator';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
 
   return (
-  // <NavigationContainer>
-  //   <Stack.Navigator initialRouteName='Login'>
-  //   <Stack.Screen
-  //   name='Login'
-  //   component={Login}
-  //   options={{headerShown:false}}
-  //   />
-  // <Stack.Screen
-  //   name='Register'
-  //   component={Register}
-  //   options={{headerShown:false}}
-  //   />
-  //   <Stack.Screen
-  //   name='Insight'
-  //   component={Insight}
-  //   options={{headerShown:false}}
-  //   />
-  //     <Stack.Screen
-  //   name='Settings'
-  //   component={Settings}
-  //   options={{headerShown:false}}
-  //   />
-  //   </Stack.Navigator>
-  // </NavigationContainer>
-  <Settings></Settings>
+ <AppNavigator />
   );
 }
 
