@@ -11,6 +11,8 @@ use App\Http\Controllers\Auth\AuthController;
 use App\Http\Controllers\Insight\InsightController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Settings\SettingsController;
+use App\Http\Controllers\Calendar\CalendarController;
+use App\Http\Controllers\Meal\MealController;
 
 Route::post('/test', [TestController::class, 'test']);
 
@@ -21,10 +23,10 @@ Route::post('/test', [TestController::class, 'test']);
  * @param name
  * @param surname
  * @param nickname
- * @param create_admin \\ true(1) or false(0)
- * @param token // not required \\ if doesnt admin user
- * @param admin_id // not required \\ if doesnt admin user
- * @param admin_email // not required \\ if doesnt admin user
+ * @param create_admin => true(1) or false(0)
+ * @param token => not required | if doesnt admin user
+ * @param admin_id => not required | if doesnt admin user
+ * @param admin_email => not required | if doesnt admin user
  *
 */
 Route::post('/register', [AuthController::class, 'register']);
@@ -43,20 +45,8 @@ Route::post('/login', [AuthController::class, 'login']);
  */
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 
-/**
- * @param user_id
- */
-
-
-
-
-
-//php artisan make:middleware TokenControl
-//php artisan make:controller Inside/InsideController 
-//php artisan make:class Services/Inside/InsideServices
 
 Route::middleware([TokenControl::class])->group(function() {
-    Route::post('/insight',[InsightController::class,'calculate']);
     /**
      * @param int age
      * @param string gender
@@ -64,12 +54,25 @@ Route::middleware([TokenControl::class])->group(function() {
      * @param int height 
      * @param string activityLevel 
      */
+    Route::post('/insight',[InsightController::class,'calculate']);
 
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/settings',[SettingsController::class,'update']);
-    Route::post('/home',[HomeController::class,'//']);
-    //home and settings
 
+
+    Route::post('get-meals-cal-from-date', [CalendarController::class, 'getMealsFromDate']);
+
+    Route::post('add-meal-with-cal', [MealController::class, 'addWithCal']);
+
+    Route::post('add-meal-with-img',[MealController::class, 'addWithImg']);
 });
 
 
+// http://127.0.0.1:5000/api/calorie-calculator/calculate
+// x-api-key .env -> config -> dosya oluşturulcak api koy burda  APP_KEY = f46659f0803acfad856c0bbd3137ca574709f3a04e9c80086d6cced45bad1a51 
+// body image => resmin kendisini (.jpg, png, jpeg, webp.. resmin kendisi ! .avif, svg)
+
+// 'xapikey' => 'Bearer YOUR_API_KEY_HERE', // veya 'X-API-Key' => '...'
+// 'nutriaiappkey-appkey-for-laravel-appasd_lkajsdklajsdkljaskdjaskdjaujvjhs' ->x
+// x + '_nutrisaltdasdasd' -> y salt hashing beaver
+// y -> bareer_y_sadasdasdasd -> y

@@ -1,39 +1,123 @@
 <div class="home-component-main-div">
-    <div class="home-area">
+  <div class="home-area">
     <div class="wrapper">
-        <button class="settings-button" (click)="goToSettings()"> <i class="fa-solid fa-bars"></i></button>
-    <div class="calendar-panel">
-      <div class="calendar-header">
-        <button class="nav-btn">‹</button>
-        <span class="month-year">May 2025</span>
-        <button class="nav-btn">›</button>
-      </div>
-      <div class="calendar-days">
-        <div class="day-name">Mon</div>
-        <div class="day-name">Tue</div>
-        <div class="day-name">Wed</div>
-        <div class="day-name">Thu</div>
-        <div class="day-name">Fri</div>
-        <div class="day-name">Sat</div>
-        <div class="day-name">Sun</div>
-      </div>
-      <div class="calendar-grid">
-        <div 
-          class="day" 
-          *ngFor="let day of days" 
-          [class.selected]="selectedDay === day"
-          (click)="selectDay(day)">
-          {{ day }}
+      <button class="settings-button" (click)="goToSettings()">
+        <i class="fa-solid fa-bars"></i>
+      </button>
+
+      <div class="calendar-panel">
+        <div class="calendar-header">
+          <button class="nav-btn" (click)="prevMonth()">‹</button>
+          <span class="month-year">{{ selectedMonth }} {{ selectedYear }}</span>
+          <button class="nav-btn" (click)="nextMonth()">›</button>
+        </div>
+        <!-- 
+        <div class="calendar-days">
+          <div class="day-name">Mon</div>
+          <div class="day-name">Tue</div>
+          <div class="day-name">Wed</div>
+          <div class="day-name">Thu</div>
+          <div class="day-name">Fri</div>
+          <div class="day-name">Sat</div>
+          <div class="day-name">Sun</div>
+        </div>
+        -->
+        <div class="calendar-grid">
+          <div 
+            class="day"
+            *ngFor="let day of days"
+            [class.selected]="selectedDay === day"
+            [attr.data-calendar-date]="selectedDateString"
+            (click)="selectDay(day)">
+            {{ day }}
+          </div>
+        </div>
+        <div class="info-panel">
+          <h2 class="info-title">Selected Day Info</h2>
+          <div *ngIf="mealList.length > 0" class="meal-days-list-div">
+            <div *ngFor="let meal of mealList">
+              {{ meal.meal_cal }} <i class="fa-solid fa-fire"></i>
+            </div>
+          </div>
+          <div *ngIf="mealList.length <= 0" class="meal-days-list-div error-while-meal-div">
+            <div>
+              Ur not select a date yet or not any meal for this date
+            </div>
+          </div>
+
+          <div class="info-action" (click)="openCalArea()">🍽️ Add Calories</div>
+          <div class="info-action" (click)="openCamera()">📷 Take a Photo</div>
+
+          <!-- Kamera Paneli (başta gizli) -->
+          <div *ngIf="isCameraOpen" class="camera-panel">
+            <video #video autoplay playsinline></video>
+            <button (click)="takePhoto()">📸 Capture</button>
+            <canvas #canvas style="display: none;"></canvas>
+          </div>
+
+
+
+          <div class="info-action" (click)="triggerFileInput()">📝 Select File From Device</div>
+          <input
+          type="file"
+          #fileInput
+          accept=".jpg,.jpeg,.png,.webp"
+          style="display: none"
+          (change)="uploadFile($event)"
+          >
         </div>
       </div>
-      
-  
-    <div class="info-panel">
-      <h2 class="info-title">Selected Day Info</h2>
-      <div class="info-action">📷 Take a Photo</div>
-      <div class="info-action">🍽️ Add Calories</div>
-      <div class="info-action">📝 Add Note</div>
     </div>
   </div>
 </div>
+
+
+<div class="home-cal-area" [ngClass]="{'cal-area-closed': !isOpenCalArea}">
+  <div class="cal-area-div">
+    <div class="cal-area-x">
+      <span (click)="closeCalArea()">X</span>
+    </div>
+    <div class="cal-area-main">
+      <div class="cal-area-text">
+        <span>Write your meals cal value ?</span>
+      </div>
+      <div class="cal-area-form">
+        <div class="utility-input-text"
+              placeholder="calorie"
+              (valueChanged)="cal = $event"></div>
+          <app-utilty-button
+          label ="Save Cal"
+          type="success"
+          [disabled]="false"
+          [loading]="false"
+          (clicked)="submit()"
+          >
+          </app-utilty-button>
+      </div>
+    </div>
+  </div>
+</div> 
+
+
+<div class="home-confirm-area" [ngClass]="{'confirm-area-closed': !isOpenConfirmArea}">
+  <div class="home-confirm-div">
+      <div class="confirm-main-area">
+        <div class="confirm-text">
+          <span>
+            AI calculate is: {{ calculatedCal }} cal
+          </span>
+          <span class="explain-text">
+            Ai can make mistake. please check your output.
+          </span>
+        </div>
+        <div class="confirm-buttons">
+          <div class="cancel-button-confirm" (click)="cancelConfirm()">
+            Cancel
+          </div>
+          <div class="confirm-button-confirm">
+            Confirm
+          </div>
+        </div>
+      </div>
+  </div>
 </div>

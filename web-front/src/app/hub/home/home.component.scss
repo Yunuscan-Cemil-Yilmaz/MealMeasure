@@ -125,6 +125,7 @@
       margin-bottom: 1rem;
       text-align: center;
       cursor: pointer;
+      transition: all .2s ease;
   
       &:hover {
         background-color: #28d47c;
@@ -148,6 +149,199 @@
       }
     
   }
-  
 
+
+  .meal-days-list-div{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    div{
+      width: 75%;
+      height: 40px;
+      background-color: rgb(46, 46, 46);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      margin-bottom: 7px;
+      transition: all .2s ease;
+      border-radius: 5px;
+      &:hover{
+        background-color: #28d47c;
+        color: black;
+      }
+      &:last-child{
+        margin-bottom: 25px !important;
+      }
+      i{
+        margin-left: 4px;
+        opacity: 0.7;
+        font-size: 12px;
+      }
+    }
+
+    &.error-while-meal-div{
+      div{
+        color: white !important;
+        height: 75px;
+      }
+    }
+  }
+}
+
+.home-cal-area{
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  .cal-area-div{
+    min-width: 300px;
+    max-width: 425px;
+    width: 50%;   
+    height: 275px;
+    background-color: rgb(35, 35, 35);
+    border-radius: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+    .cal-area-x{
+      width: 100%;
+      text-align: right;
+      font-size: 25px;
+      padding: 8px;
+      padding-right: 20px;
+      height: 50px;
+      background-color: rgb(25, 25, 25);
+      span{
+        cursor: pointer;
+      }
+    }
+    .cal-area-main{
+      height: calc(275px - 50px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 100%;
+      .cal-area-text{
+        margin-bottom: 8px;
+        font-weight: 800;
+        opacity: 0.9;
+      }
+      .cal-area-form{
+        form{
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+        }
+      } 
+    }
+  }
+
+  &.cal-area-closed { 
+    display: none;
+  }
+}
+
+.home-confirm-area{
+  position: fixed;
+  left: 0; top: 0; right: 0; bottom: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .home-confirm-div{
+    min-width: 300px;
+    max-width: 425px;
+    width: 50%;   
+    height: 275px;
+    background-color: rgb(35, 35, 35);
+    border-radius: 15px;
+    color: white;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+     
+    .confirm-main-area{
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      .confirm-text{
+        display: flex;
+        flex-direction: column;
+        span{
+          width: 100%;
+          text-align: center;
+          font-size: 26px !important;
+          &:last-child{
+            color: white;
+            opacity: 0.6;
+          }
+          &.explain-text{
+            font-size: 12px !important;
+          }
+        }
+      }
+      
+      .confirm-buttons{
+        margin-top: 35px;
+        width: 75%;
+        display: flex;
+        justify-content: space-around;
+        div{
+          &.cancel-button-confirm{
+            background-color: #d9534f;
+          }
+          &.confirm-button-confirm{
+            background-color: #5cb85c;
+          }
+          padding: 5px 16px;
+          font-size: 18px;
+          border-radius: 5px;  
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  &.confirm-area-closed { 
+    display: none;
+  }
+}
+
+@media (max-width: 700px){
+  .confirm-buttons{
+    justify-content: space-between !important;
+  }
+}
+
+
+
+.camera-panel {
+  margin-top: 16px;
+  video {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  }
+
+  button {
+    margin-top: 12px;
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #0099ff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+  }
 }
