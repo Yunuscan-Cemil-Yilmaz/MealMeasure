@@ -270,11 +270,13 @@ export class HomeComponent implements OnInit {
       )
       .subscribe({
         next: (res) => {
+          alert('✅ YANIT GELDİ');
           console.log('Upload successful', res);
         },
         error: (err) => {
           console.error('Upload failed or timed out:', err);
-          console.log(file);
+          alert('❌ İSTEK HATA VERDİ veya TARAYICI KESTİ');
+          console.error('Upload failed or timed out:', err);
         }
       });
   }

@@ -45,6 +45,7 @@ Route::post('/login', [AuthController::class, 'login']);
  */
 Route::post('/auto-login', [AuthController::class, 'autoLogin']);
 
+Route::post('/logout', [AuthController::class, 'logout']);
 
 Route::middleware([TokenControl::class])->group(function() {
     /**
@@ -56,7 +57,6 @@ Route::middleware([TokenControl::class])->group(function() {
      */
     Route::post('/insight',[InsightController::class,'calculate']);
 
-    Route::post('/logout', [AuthController::class, 'logout']);
     Route::post('/settings',[SettingsController::class,'update']);
 
 

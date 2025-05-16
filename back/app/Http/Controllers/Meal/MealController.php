@@ -107,7 +107,7 @@ class MealController extends Controller
             }
 
             
-            return $response->json([
+            return response()->json([
                 "status"=> "success",
                 "message"=> "Calculated by system.",
                 "response"=> $response['response']
