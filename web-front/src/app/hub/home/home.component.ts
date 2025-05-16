@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { timeout } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-home',
@@ -71,8 +71,7 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/settings']);
   }
   
-
-  constructor(private router:Router, private http: HttpClient) { }
+  constructor(private router:Router, private http: HttpClient, private cdr:ChangeDetectorRef) { }
 
   ngOnInit(): void {
     const today = new Date();
@@ -87,7 +86,6 @@ export class HomeComponent implements OnInit {
     const dayAmount = lastDay.getDate()
     this.days = Array.from({ length: dayAmount }, (_, i) => i + 1);
   }
-
 
   nextMonth(){
     if(this.calculatedMonth > 10){ // go next year
@@ -127,8 +125,6 @@ export class HomeComponent implements OnInit {
     this.days = Array.from({ length: dayAmount }, (_, i) => i + 1);
   }
 
-
-
   openCalArea(){
     this.isOpenCalArea = true;
   }
@@ -136,6 +132,7 @@ export class HomeComponent implements OnInit {
     this.isOpenCalArea = false;
   }
   openConfirmArea() { 
+    console.log('calisti');
     this.isOpenConfirmArea = true;
   }
   closeConfirmArea(){
@@ -171,10 +168,6 @@ export class HomeComponent implements OnInit {
     })
   }
 
-
-
-
-
   openCamera() {
     this.isCameraOpen = true;
   
@@ -202,47 +195,58 @@ export class HomeComponent implements OnInit {
   }
 
   takePhoto() {
-  const video = this.video.nativeElement;
-  const canvas = this.canvas.nativeElement;
-  const context = canvas.getContext('2d');
-
-  canvas.width = video.videoWidth;
-  canvas.height = video.videoHeight;
-
-  context?.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-  canvas.toBlob(blob => {
-    if (!blob) return;
-
-    const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user') || '{}');
+    const video = this.video.nativeElement;
+    const canvas = this.canvas.nativeElement;
+    const context = canvas.getContext('2d');
   
-    const headers = {
-      'auth_token': token || '',
-      'sender_id': String(user.user_id),
-      'sender_email': String(user.user_email),
-    };
-
-    const formData = new FormData();
-    formData.append('image', blob, 'photo.jpg');
-
-    this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_IMAGE}`, formData, { headers }).subscribe({
-      next: res => {
-        console.log('Fotoğraf gönderildi', res);
-      },
-      error: err => {
-        console.error('Gönderim hatası', err);
-      }
-    });
-
-    // Kamerayı durdur ve paneli kapat
-    this.stream?.getTracks().forEach(track => track.stop());
-    this.isCameraOpen = false;
-  }, 'image/jpeg');
-}
-
-
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
   
+    context?.drawImage(video, 0, 0, canvas.width, canvas.height);
+  
+    canvas.toBlob(blob => {
+      if (!blob) return;
+  
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+  
+      const headers = {
+        'auth_token': token || '',
+        'sender_id': String(user.user_id),
+        'sender_email': String(user.user_email),
+      };
+  
+      const formData = new FormData();
+      formData.append('image', blob, 'photo.jpg');
+  
+      this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_IMAGE}`, formData, { headers }).subscribe({
+        next: (res: any) => {
+          alert('✅ YANIT GELDİ');
+          console.log('Upload successful', res);
+          // ✅ RESPONSE GELDİKTEN SONRA paneli ve kamerayı kapat
+          this.stream?.getTracks().forEach(track => track.stop());
+          this.isCameraOpen = false;
+          this.calculatedCal = Math.round(Number(res.response));
+          this.openConfirmArea();
+          this.cdr.detectChanges();
+        },
+        error: err => {
+          if (err.status == 501) {
+            alert('Are u joking with me ? This is not a meal');
+            this.stream?.getTracks().forEach(track => track.stop());
+            this.isCameraOpen = false;
+            return;
+          }
+          alert('❌ İSTEK HATA VERDİ veya TARAYICI KESTİ');
+          
+          // ❌ Hata durumunda da kamerayı durdurmak istersen buraya da ekle:
+          this.stream?.getTracks().forEach(track => track.stop());
+          this.isCameraOpen = false;
+        }
+      });
+  
+    }, 'image/jpeg');
+  }
 
   triggerFileInput(): void {
     this.fileInput.nativeElement.click(); // Gizli input'u tetikle
@@ -264,25 +268,22 @@ export class HomeComponent implements OnInit {
     const formData = new FormData();
     formData.append('image', file);
   
-    this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_IMAGE}`, formData, { headers })
-      .pipe(
-        timeout(6600000) // 110 dakika = 110 * 60 * 1000
-      )
-      .subscribe({
-        next: (res) => {
+    this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_IMAGE}`, formData, { headers }).subscribe({
+        next: (res: any) => {
           alert('✅ YANIT GELDİ');
           console.log('Upload successful', res);
+          this.calculatedCal = Math.round(Number(res.response));
+          this.openConfirmArea();
         },
         error: (err) => {
-          console.error('Upload failed or timed out:', err);
+          if(err.status == 501){
+            alert('Are u joking with me ? This is not a meal');
+            return;
+          }
           alert('❌ İSTEK HATA VERDİ veya TARAYICI KESTİ');
-          console.error('Upload failed or timed out:', err);
         }
       });
   }
-
-
-  
 
   cancelConfirm(){
     this.calculatedCal = 0;
@@ -311,11 +312,11 @@ export class HomeComponent implements OnInit {
     this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_CAL}`, body, { headers }).subscribe({
       next: (response: any) => {
         alert('add meal with successfuly');
-        this.closeCalArea();
+        this.closeConfirmArea();
       }, 
       error: (err) => {
         alert('system error while adding');
-        this.closeCalArea();
+        this.closeConfirmArea();
       }
     })
   }

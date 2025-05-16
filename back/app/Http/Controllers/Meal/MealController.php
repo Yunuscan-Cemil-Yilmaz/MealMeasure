@@ -88,7 +88,7 @@ class MealController extends Controller
                ]);
             }
 
-            $response = Http::timeout(3000000000000000000000)
+            $response = Http::timeout(600)
             ->withHeaders([
                 'x-api-key' => 'f46659f0803acfad856c0bbd3137ca574709f3a04e9c80086d6cced45bad1a51'
             ])->attach(
@@ -101,7 +101,7 @@ class MealController extends Controller
             if($response['response'] == -1 || !$response){
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'invalid or missing image',
+                    'message' => 'image dismatch',
                     'response' => null
                 ], 501);
             }
