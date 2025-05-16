@@ -6,5 +6,7 @@ export const environment = {
   API_REGISTER: '/register',
   API_INSIGHT: '/insight',
   API_SETTINGS: '/settings',
-  API_GET_CAL_PER_DAY: '/get-meals-cal-from-date'
+  API_GET_CAL_PER_DAY: '/get-meals-cal-from-date',
+  API_ADD_MEAL_WITH_CAL: '/add-meal-with-cal',
+  API_ADD_MEAL_WITH_IMAGE: '/add-meal-with-img'
 };

@@ -17,7 +17,7 @@ def calculate():
             "message": "No image provided!",
             "response": None,
             "from": "system"
-        }), 400
+        }), 400, {'Content-Type': 'application/json'}
 
     file = request.files['image']
     data = file.read()
@@ -44,7 +44,7 @@ def calculate():
             "message": "Calculated by system.",
             "response": round(total_cal, 2),
             "from": "system"
-        }), 200
+        }), 200, {'Content-Type': 'application/json'}
 
     except Exception as e:
         suffix = os.path.splitext(file.filename)[1] or ".jpg"
@@ -62,4 +62,4 @@ def calculate():
             "message": "Calculated by GPT.",
             "response": gpt_cal,
             "from": "gpt"
-        }), 200
+        }), 200, {'Content-Type': 'application/json'}

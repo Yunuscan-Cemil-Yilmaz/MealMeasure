@@ -12,6 +12,7 @@ use App\Http\Controllers\Insight\InsightController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Settings\SettingsController;
 use App\Http\Controllers\Calendar\CalendarController;
+use App\Http\Controllers\Meal\MealController;
 
 Route::post('/test', [TestController::class, 'test']);
 
@@ -61,6 +62,17 @@ Route::middleware([TokenControl::class])->group(function() {
 
     Route::post('get-meals-cal-from-date', [CalendarController::class, 'getMealsFromDate']);
 
+    Route::post('add-meal-with-cal', [MealController::class, 'addWithCal']);
+
+    Route::post('add-meal-with-img',[MealController::class, 'addWithImg']);
 });
 
 
+// http://127.0.0.1:5000/api/calorie-calculator/calculate
+// x-api-key .env -> config -> dosya oluşturulcak api koy burda  APP_KEY = f46659f0803acfad856c0bbd3137ca574709f3a04e9c80086d6cced45bad1a51 
+// body image => resmin kendisini (.jpg, png, jpeg, webp.. resmin kendisi ! .avif, svg)
+
+// 'xapikey' => 'Bearer YOUR_API_KEY_HERE', // veya 'X-API-Key' => '...'
+// 'nutriaiappkey-appkey-for-laravel-appasd_lkajsdklajsdkljaskdjaskdjaujvjhs' ->x
+// x + '_nutrisaltdasdasd' -> y salt hashing beaver
+// y -> bareer_y_sadasdasdasd -> y
