@@ -106,7 +106,7 @@ const handleUpload = async () => {
     Alert.alert('Başarılı', 'Yükleme tamamlandı!');
     console.log('Response:', response.data);
   } catch (error) {
-    console.error('Upload error:', error);
+    console.error('Upload error:', error.response.data);
     Alert.alert('Hata', 'Yükleme başarısız.');
   }
 };
