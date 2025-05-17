@@ -131,6 +131,3 @@ export class AuthService{
       
       
 }
-
-//insight datayı al backe gönder backte bmi tdee hesapla sonra bunları users tablosunu update et is_complated true çek 
-//is_complated 

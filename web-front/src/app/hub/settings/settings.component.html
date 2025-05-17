@@ -1,5 +1,6 @@
 <div class="settings-component-main-div">
     <div class="settings-area">
+      <button class="home-button" (click)="goToHome()"><i class="fa-solid fa-arrow-left"></i></button>
       <h2>Settings</h2>
   
       <div class="profile-section">
@@ -39,11 +40,11 @@
         </div>
   
         <!-- BMI and TDEE row -->
-    <div class="settings-bmi-tdee-row">
-    <span class="settings-label">BMI / TDEE</span>
-    <span class="settings-value">{{ userBmi }} / {{ userTdee }}</span>
-    <span class="settings-change-link" (click)="goToInsight()">Change</span>
-    </div>
+        <div class="settings-bmi-tdee-row">
+        <span class="settings-label">BMI / TDEE</span>
+        <span class="settings-value">{{ userBmi }} / {{ userTdee }}</span>
+        <span class="settings-change-link" (click)="goToInsight()">Change</span>
+        </div>
   
   
       <!-- Buttons -->
@@ -52,6 +53,8 @@
         <button *ngIf="isEditing" (click)="saveChanges()">Save</button>
         <button (click)="logout()">Log Out</button>
       </div>
+
+      
     </div>
   </div>
   

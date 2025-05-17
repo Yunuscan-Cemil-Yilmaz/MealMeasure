@@ -4,7 +4,6 @@
       <button class="settings-button" (click)="goToSettings()">
         <i class="fa-solid fa-bars"></i>
       </button>
-
       <div class="calendar-panel">
         <div class="calendar-header">
           <button class="nav-btn" (click)="prevMonth()">‹</button>
@@ -44,19 +43,14 @@
               Ur not select a date yet or not any meal for this date
             </div>
           </div>
-
           <div class="info-action" (click)="openCalArea()">🍽️ Add Calories</div>
           <div class="info-action" (click)="openCamera()">📷 Take a Photo</div>
-
           <!-- Kamera Paneli (başta gizli) -->
           <div *ngIf="isCameraOpen" class="camera-panel">
             <video #video autoplay playsinline></video>
             <button (click)="takePhoto()">📸 Capture</button>
             <canvas #canvas style="display: none;"></canvas>
           </div>
-
-
-
           <div class="info-action" (click)="triggerFileInput()">📝 Select File From Device</div>
           <input
           type="file"
@@ -98,7 +92,6 @@
   </div>
 </div> 
 
-
 <div class="home-confirm-area" [ngClass]="{'confirm-area-closed': !isOpenConfirmArea}">
   <div class="home-confirm-div">
       <div class="confirm-main-area">
@@ -114,7 +107,7 @@
           <div class="cancel-button-confirm" (click)="cancelConfirm()">
             Cancel
           </div>
-          <div class="confirm-button-confirm">
+          <div class="confirm-button-confirm" (click)="confirmConfirm()">
             Confirm
           </div>
         </div>
