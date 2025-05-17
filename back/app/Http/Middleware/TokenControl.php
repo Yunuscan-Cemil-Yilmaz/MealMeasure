@@ -46,4 +46,4 @@ class TokenControl
         $request->merge(['user_id' => $userId]);
         return $next($request);
     }
-}//süresi geçmiş    
+}
