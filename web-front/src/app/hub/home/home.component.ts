@@ -218,7 +218,7 @@ export class HomeComponent implements OnInit {
   
       const formData = new FormData();
       formData.append('image', blob, 'photo.jpg');
-  
+      console.log(formData);
       this.http.post(`${environment.API_URL}${environment.API_ADD_MEAL_WITH_IMAGE}`, formData, { headers }).subscribe({
         next: (res: any) => {
           alert('✅ YANIT GELDİ');

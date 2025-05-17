@@ -65,4 +65,5 @@ Route::middleware([TokenControl::class])->group(function() {
     Route::post('add-meal-with-cal', [MealController::class, 'addWithCal']);
 
     Route::post('add-meal-with-img',[MealController::class, 'addWithImg']);
+    Route::post('add-meal-with-img-from-mobile',[MealController::class, 'addwithImgFromMobile']);
 });

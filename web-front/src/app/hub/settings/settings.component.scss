@@ -6,6 +6,7 @@
     background-color: #171717;
   
     .settings-area {
+      position: relative;
       width: 375px;
       min-height: 100vh;
       background-color: #171717;
@@ -110,6 +111,24 @@
         }
       }
     }
+
+    .home-button {
+              
+      text-align: center;
+      position: absolute;
+      left: 25px;
+      top: 25px;
+      background-color: transparent;
+      border: none;
+      font-size: 1.3rem;
+      color: white;
+      cursor: pointer;
+  
+      &:hover {
+        color: #28d47c;
+      }
+    
+  }
   }
 
   .settings-bmi-tdee-row {

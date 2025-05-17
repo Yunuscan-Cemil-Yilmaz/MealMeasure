@@ -58,6 +58,10 @@ export class SettingsComponent implements OnInit {
     this.router.navigate(['/insight']);
   }
 
+  goToHome(){
+    this.router.navigate(['/home']);
+  }
+
   onFirstNameChange(event: Event) {
     const input = event.target as HTMLInputElement;
     this.firstName = input?.value || '';
