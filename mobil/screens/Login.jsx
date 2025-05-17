@@ -13,23 +13,28 @@ const Login = ({navigation}) => {
     const [password, setPassword] = useState('');
 
 
-    const handleLogin = async () => {
- 
+  const handleLogin = async () => {
     const data = {
         email: email,
         password: password,
-
     };
 
     try {
         const response = await axios.post("http://192.168.1.101:8000/api/login", data);
         alert("Login Success:");
-        await AsyncStorage.setItem('user', JSON.stringify(response.data))
+        await AsyncStorage.setItem('user', JSON.stringify(response.data));
+        console.log(response.data);
 
-   console.log(response.data)
-        navigation.navigate("Insight");
+        const userData = response.data.user;
+
+        if (userData.is_completed) {
+            navigation.replace("Home"); 
+        } else {
+            navigation.replace("Insight");
+        }
+
     } catch (error) {
-        console.error("Register Failed:", error.response?.data || error.message);
+        console.error("Login Failed:", error.response?.data || error.message);
         const message = error.response?.data?.message || "Login failed!";
         alert(message);
     }

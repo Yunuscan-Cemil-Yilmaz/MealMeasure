@@ -7,9 +7,7 @@ import Login from '../screens/Login';
 import Register from '../screens/Register';
 import Insight from '../screens/Insight';
 import Settings from '../screens/Settings';
-
-
-
+import Home from '../screens/Home';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,15 +19,14 @@ const AppNavigator = () => {
       try {
         const user = await AsyncStorage.getItem('user');
         const userData = user ? JSON.parse(user) : null;
-
         if (userData && userData.user) {
           if (userData.user.is_completed) {
-            setInitialRoute('Settings');
+            setInitialRoute('Home');
           } else {
-            setInitialRoute('Insight'); 
+            setInitialRoute('Insight');
           }
         } else {
-          setInitialRoute('Login'); 
+          setInitialRoute('Login');
         }
       } catch (error) {
         console.error('Guard kontrol hatası:', error);
@@ -40,31 +37,36 @@ const AppNavigator = () => {
     checkUserStatus();
   }, []);
 
-  if (!initialRoute) return null; 
+  if (!initialRoute) return null;
 
   return (
     <NavigationContainer>
       <Stack.Navigator initialRouteName={initialRoute}>
-     <Stack.Screen
-    name='Login'
-    component={Login}
-    options={{headerShown:false}}
-    />
-  <Stack.Screen
-    name='Register'
-    component={Register}
-    options={{headerShown:false}}
-    />
-    <Stack.Screen
-    name='Insight'
-    component={Insight}
-    options={{headerShown:false}}
-    />
-      <Stack.Screen
-    name='Settings'
-    component={Settings}
-    options={{headerShown:false}}
-    />
+        <Stack.Screen
+          name='Login'
+          component={Login}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Register'
+          component={Register}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Insight'
+          component={Insight}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name='Settings'
+          component={Settings}
+          options={{ headerShown: false }}
+        />
+            <Stack.Screen
+          name='Home'
+          component={Home}
+          options={{ headerShown: false }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
