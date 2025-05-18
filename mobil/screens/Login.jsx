@@ -7,6 +7,7 @@ import Input from '../components/Input';
 import Button from '../components/Button';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { API_URL } from '../Utils';
 
 const Login = ({navigation}) => {
     const [email, setEmail] = useState('');
@@ -20,7 +21,7 @@ const Login = ({navigation}) => {
     };
 
     try {
-        const response = await axios.post("http://192.168.1.101:8000/api/login", data);
+        const response = await axios.post(`http://${API_URL}:8000/api/login`, data);
         alert("Login Success:");
         await AsyncStorage.setItem('user', JSON.stringify(response.data));
         console.log(response.data);
