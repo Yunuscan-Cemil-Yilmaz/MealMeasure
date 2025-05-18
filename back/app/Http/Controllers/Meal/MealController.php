@@ -125,63 +125,61 @@ class MealController extends Controller
     }
 
     public function addwithImgFromMobile(Request $request){
-        $user_id = $request->input('user_id');
-    
-        if (empty($user_id) || !$request->hasFile('image') || !$request->file('image')->isValid()) {
+     $user_id = $request->input('user_id');
+        
+
+
+        if(empty($user_id) || !$request->hasFile('image') || !$request->file('image')->isValid()){
             return response()->json([
                 'status' => 'error',
                 'message' => 'invalid or missing image',
                 'response' => null
-            ], 400);
+            ],400);
         }
-    
+
         $image = $request->file('image');
         $allowedMimeTypes = ['image/jpeg', 'image/png', 'image/webp'];
-    
-        try {
+
+       
+        try{
             if (!in_array($image->getMimeType(), $allowedMimeTypes)) {
-                throw ValidationException::withMessages([
-                    'error' => ['type dismatch']
-                ]);
+               throw ValidationException::withMessages([
+                'error' => ['type dismatch']
+               ]);
             }
-    
-            $content = file_get_contents($image->getRealPath());
-    
-            if (!$content) {
-                return response()->json([
-                    'status' => 'error',
-                    'message' => 'image content could not be read',
-                    'response' => null
-                ], 422);
-            }
-    
+
             $response = Http::timeout(600)
-                ->withHeaders([
-                    'x-api-key' => 'f46659f0803acfad856c0bbd3137ca574709f3a04e9c80086d6cced45bad1a51'
-                ])
-                ->attach('image', $content, $image->getClientOriginalName())
-                ->post('http://127.0.0.1:5000/api/calorie-calculator/calculate');
-    
-            if (!$response || $response['response'] == -1) {
+            ->withHeaders([
+                'x-api-key' => 'f46659f0803acfad856c0bbd3137ca574709f3a04e9c80086d6cced45bad1a51'
+            ])->attach(
+                'image', 
+                file_get_contents($image->getRealPath()), 
+                $image->getClientOriginalName() 
+            )->post('http://192.168.1.104:5000/api/calorie-calculator/calculate');
+            
+
+            if($response['response'] == -1 || !$response){
                 return response()->json([
                     'status' => 'error',
                     'message' => 'image dismatch',
                     'response' => null
                 ], 501);
             }
-    
+
+            
             return response()->json([
-                "status" => "success",
-                "message" => "Calculated by system.",
-                "response" => $response['response']
+                "status"=> "success",
+                "message"=> "Calculated by system.",
+                "response"=> $response['response']
             ], 200);
-    
-        } catch (ValidationException $e) {
+
+        }
+        catch(ValidationException $e){
             return response()->json([
                 'status' => 'error',
                 'message' => 'system_error',
                 'response' => $e->getMessage()
-            ], 422);
+            ],422);
         }
     }
 }
