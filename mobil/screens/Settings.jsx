@@ -45,7 +45,7 @@ const saveChanges = async () => {
   };
 
   try {
-    const response = await axios.post("http://192.168.1.101:8000/api/settings", data, {
+    const response = await axios.post(`http://${API_URL}:8000/api/settings`, data, {
       headers: {
         'auth_token': userData?.token || '',
         'sender_id': String(userData?.user?.user_id),
@@ -79,7 +79,7 @@ const saveChanges = async () => {
 
 
     try {
-      await axios.post("http://192.168.1.101:8000/api/logout", data, {
+      await axios.post(`http://${API_URL}:8000/api/logout`, data, {
         headers: {
           'auth_token': userData?.token || '',
           'sender_id': String(userData?.user?.user_id),

@@ -38,16 +38,6 @@ const Home = () => {
   const handleAddCalories = () => {
 
 
-    if (!selectedDate) {
-      Alert.alert('Uyarı', 'Lütfen önce bir tarih seçin!');
-      return;
-    }
-
-
-
-
-
-
     setModalVisible(true);
   };
 
@@ -71,7 +61,7 @@ const Home = () => {
 
     try {
       await axios.post(
-        `http://192.168.1.101:8000/api/add-meal-with-cal`,
+        `http://${API_URL}:8000/api/add-meal-with-cal`,
         data,
         {
           headers: {
@@ -137,7 +127,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        `http://192.168.1.101:8000/api/add-meal-with-img-from-mobile`,
+        `http://${API_URL}:8000/api/add-meal-with-img-from-mobile`,
         formData,
         {
           headers: {
@@ -150,15 +140,19 @@ const Home = () => {
       );
       Alert.alert('Başarılı', 'Yükleme tamamlandı!');
     } catch (error) {
+      if(error.status==501){
+        Alert.alert('Are you joking with me ? this is not a meal :) ')
+        return 
+      }
       console.error('Upload error:', error.response?.data || error.message);
-      Alert.alert('Hata', 'Yükleme başarısız.');
+      Alert.alert('Hata', 'Yükleme başarısız.')
     }
   };
 
   const getCalories = async (day) => {
     setSelectedDate(day.dateString);
-    const user = await AsyncStorage.getItem('user');
-    const userData = user ? JSON.parse(user) : null;
+    const user = await AsyncStorage.getItem('user')
+    const userData = user ? JSON.parse(user) : null
     if (!userData) {
       Alert.alert('Hata', 'Kullanıcı bulunamadı.');
       return;
@@ -166,7 +160,7 @@ const Home = () => {
 
     try {
       const response = await axios.post(
-        "http://192.168.1.101:8000/api/get-meals-cal-from-date",
+        `http://${API_URL}:8000/api/get-meals-cal-from-date`,
         { selected_date: day.dateString },
         {
           headers: {
@@ -179,7 +173,7 @@ const Home = () => {
       setCal(response.data.response || []);
     } catch (error) {
       console.error("Fetch error:", error.response?.data || error.message);
-      Alert.alert("Hata", "Veri alınamadı.");
+      setCal([])
     }
   };
 

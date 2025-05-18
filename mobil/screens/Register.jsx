@@ -32,7 +32,7 @@ const handleRegister = async () => {
     };
 
     try {
-        const response = await axios.post("http://192.168.1.101:8000/api/register", data);
+        const response = await axios.post(`http://${API_URL}:8000/api/register`, data);
         console.log("Register Success:", response.data);
         alert("Registration successful!");
         navigation.navigate("Login");

@@ -35,7 +35,7 @@ const Insight = ({ navigation }) => {
         const userData = user ? JSON.parse(user) : null
 
         try {
-            const response = await axios.post("http://192.168.1.101:8000/api/insight", data, {
+            const response = await axios.post(`http://${API_URL}:8000/api/insight`, data, {
                 headers: {
                     'auth_token': userData.token || '',
                     'sender_id': String(userData.user.user_id),
