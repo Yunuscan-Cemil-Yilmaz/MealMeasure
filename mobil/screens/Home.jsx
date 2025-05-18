@@ -15,6 +15,7 @@ import * as DocumentPicker from 'expo-document-picker';
 import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { API_URL } from '../Utils';
 
 const Home = () => {
   const [selectedDate, setSelectedDate] = useState(null);
@@ -149,6 +150,57 @@ const Home = () => {
     }
   };
 
+
+
+const handleUpload2 = async () => {
+    if (!selectedPhoto) {
+      Alert.alert('Hata', 'Önce fotoğraf seçin.');
+      return;
+    }
+    const user = await AsyncStorage.getItem('user');
+    const userData = user ? JSON.parse(user) : null;
+    if (!userData) {
+      Alert.alert('Hata', 'Kullanıcı bulunamadı.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', {
+      image: selectedFile,
+   
+    });
+
+    try {
+      const response = await axios.post(
+        `http://${API_URL}:8000/api/add-meal-with-img`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'auth_token': userData.token || '',
+            'sender_id': String(userData.user.user_id),
+            'sender_email': String(userData.user.user_email),
+          },
+        }
+      );
+      Alert.alert('Başarılı', 'Yükleme tamamlandı!');
+    } catch (error) {
+      if(error.status==501){
+        Alert.alert('Are you joking with me ? this is not a meal :) ')
+        return 
+      }
+      console.error('Upload error:', error.response?.data || error.message);
+      Alert.alert('Hata', 'Yükleme başarısız.')
+    }
+  };
+
+
+
+
+
+
+
+
   const getCalories = async (day) => {
     setSelectedDate(day.dateString);
     const user = await AsyncStorage.getItem('user')
@@ -227,7 +279,7 @@ const Home = () => {
           <Text style={styles.fileButtonText}>📂 Select File From Device</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={handleUpload}>
+        <TouchableOpacity style={styles.button} onPress={selectedFile ? handleUpload2 : handleUpload}>
           <Text style={styles.buttonText}>⬆️ Yükle</Text>
         </TouchableOpacity>
       </View>

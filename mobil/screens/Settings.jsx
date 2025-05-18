@@ -5,6 +5,7 @@ import Button from '../components/Button';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Input from '../components/Input';
 import axios from 'axios';
+import { API_URL } from '../Utils';
 
 const Settings = ({navigation}) => {
   const [firstName, setFirstName] = useState('');

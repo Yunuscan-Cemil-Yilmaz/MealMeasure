@@ -8,6 +8,7 @@ import Button from '../components/Button';
 import Select from '../components/Select';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { API_URL } from '../Utils';
 
 const Insight = ({ navigation }) => {
 
