@@ -4,6 +4,7 @@ import { useState } from 'react';
 import Input from '../components/Input';
 import Button from '../components/Button';
 import axios from 'axios';
+import { API_URL } from '../Utils';
 
 const Register = ({navigation}) => {
     const [email, setEmail] = useState('');
