@@ -27,7 +27,7 @@ const Home = () => {
   const [calorieInput, setCalorieInput] = useState('');
   const [uploadType, setUploadType] = useState(0);
   const [calFromService, setCalFromService] = useState(0);
-
+  const [modalVisible2, setModalVisible2] = useState(false);
   useEffect(() => {
     (async () => {
       const { status } = await Camera.requestCameraPermissionsAsync();
@@ -42,6 +42,12 @@ const Home = () => {
 
 
     setModalVisible(true);
+  };
+
+  const handleshowCalories = () => {
+
+
+    setModalVisible2(true);
   };
 
   const submitCalories = async () => {
@@ -166,9 +172,12 @@ const Home = () => {
       );
 
       console.log(response.data.response);
-      setCalFromService(response.data.response);
+      let cal=Math.round(Number(response.data.response))
+      setCalFromService(cal);
 
       Alert.alert('Başarılı', 'Yükleme tamamlandı!');
+      setModalVisible2(true)
+
     } catch (error) {
       if(error.status==501){
         Alert.alert('Are you joking with me ? this is not a meal :) ')
@@ -213,9 +222,11 @@ const Home = () => {
       );
 
       console.log(response.data.response)
-      setCalFromService(response.data.response);
-
+      let cal=Math.round(Number(response.data.response))
+      setCalFromService(cal);
+     
       Alert.alert('Başarılı', 'Yükleme tamamlandı!');
+      setModalVisible2(true)
     } catch (error) {
       if (error?.response?.status === 501) {
         Alert.alert('Are you joking with me ? this is not a meal :)');
@@ -259,6 +270,47 @@ const Home = () => {
       setCal([])
     }
   };
+
+
+
+
+  const handleAddAICal = async () => {
+   
+    const user = await AsyncStorage.getItem('user');
+    const userData = user ? JSON.parse(user) : null;
+    if (!userData) {
+      Alert.alert('Hata', 'Kullanıcı bulunamadı.');
+      return;
+    }
+
+    const data = {
+      cal_value: calFromService
+
+    };
+
+    try {
+      await axios.post(
+        `http://${API_URL}:8000/api/add-meal-with-cal`,
+        data,
+        {
+          headers: {
+            'auth_token': userData.token || '',
+            'sender_id': String(userData.user.user_id),
+            'sender_email': String(userData.user.user_email),
+          },
+        }
+      );
+      Alert.alert('Başarılı', 'Kalori başarıyla eklendi.');
+      setModalVisible2(false)
+    
+      getCalories({ dateString: selectedDate });
+     
+    } catch (error) {
+      console.error('Add calorie error:', error.response?.data || error.message);
+      Alert.alert('Hata', 'Kalori eklenemedi.');
+    }
+  };
+
 
   return (
     <SafeAreaView style={styles.container}>
@@ -342,6 +394,31 @@ const Home = () => {
           </View>
         </View>
       </Modal>
+
+
+      <Modal
+        visible={modalVisible2}
+        animationType="slide"
+        transparent
+        onRequestClose={() => setModalVisible2(false)}
+      >
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContainer}>
+            <Text style={styles.modalTitle}>AI calculate result is : {calFromService} cal</Text>
+          
+           
+           <View style={styles.box}> 
+           <TouchableOpacity onPress={() => setModalVisible2(false)}>
+              <Text style={{ color: '#ff6d7a', marginTop: 10 }}>Cancel</Text>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleAddAICal}>
+              <Text style={{ color: '#00ff7a', marginTop: 10 }}>Confirm</Text>
+            </TouchableOpacity>
+           </View>
+          </View>
+        </View>
+      </Modal>
+
     </SafeAreaView>
   );
 };
@@ -349,6 +426,14 @@ const Home = () => {
 export default Home;
 
 const styles = StyleSheet.create({
+
+  box:{
+    flexDirection:"row",
+    justifyContent:"space-between",
+    
+    width:"70%"
+    
+  },
   container: {
     flex: 1,
     backgroundColor: '#27292A',

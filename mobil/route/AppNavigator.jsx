@@ -21,7 +21,7 @@ const AppNavigator = () => {
         const userData = user ? JSON.parse(user) : null;
         if (userData && userData.user) {
           if (userData.user.is_completed) {
-            setInitialRoute('Login');
+            setInitialRoute('Home');
           } else {
             setInitialRoute('Insight');
           }
