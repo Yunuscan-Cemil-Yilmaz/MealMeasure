@@ -25,6 +25,8 @@ const Home = () => {
   const [getCal, setCal] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
   const [calorieInput, setCalorieInput] = useState('');
+  const [uploadType, setUploadType] = useState(0);
+  const [calFromService, setCalFromService] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -95,15 +97,38 @@ const Home = () => {
     if (!result.cancelled) {
       const photoUri = result.assets ? result.assets[0].uri : result.uri;
       setSelectedPhoto({ uri: photoUri });
+      setUploadType(1);
       Alert.alert('Başarılı', 'Fotoğraf çekildi!');
     }
   };
 
+
+  
   const handleSelectFile = async () => {
-    let result = await DocumentPicker.getDocumentAsync({});
-    if (result.type === 'success') {
-      setSelectedFile(result);
-      Alert.alert('Dosya Seçildi', `Dosya: ${result.name}`);
+    try {
+      const result = await DocumentPicker.getDocumentAsync({
+        copyToCacheDirectory: true,
+        type: '*/*', // veya image/*, application/pdf vs.
+      });
+  
+      // Yeni versiyonlarda `result.canceled` ile kontrol edilir
+      if (result.canceled === false && result.assets?.length > 0) {
+        const asset = result.assets[0];
+        const file = {
+          uri: asset.uri,
+          name: 'photo.jpg',
+          type: 'image/jpeg',
+        };
+  
+        setSelectedFile(file);
+        setUploadType(2);
+        Alert.alert('Dosya Seçildi', `Dosya: ${file.name}`);
+      } else {
+        console.log('Kullanıcı dosya seçmedi.');
+      }
+    } catch (error) {
+      console.error('Dosya seçimi hatası:', error);
+      Alert.alert('Hata', 'Dosya seçilirken bir sorun oluştu.');
     }
   };
 
@@ -139,6 +164,10 @@ const Home = () => {
           },
         }
       );
+
+      console.log(response.data.response);
+      setCalFromService(response.data.response);
+
       Alert.alert('Başarılı', 'Yükleme tamamlandı!');
     } catch (error) {
       if(error.status==501){
@@ -151,28 +180,27 @@ const Home = () => {
   };
 
 
-
-const handleUpload2 = async () => {
-    if (!selectedPhoto) {
-      Alert.alert('Hata', 'Önce fotoğraf seçin.');
-      return;
-    }
-    const user = await AsyncStorage.getItem('user');
-    const userData = user ? JSON.parse(user) : null;
-    if (!userData) {
-      Alert.alert('Hata', 'Kullanıcı bulunamadı.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('image', {
-      image: selectedFile,
-   
-    });
-
+  const handleUpload2 = async () => {
     try {
+  
+      const user = await AsyncStorage.getItem('user');
+      const userData = user ? JSON.parse(user) : null;
+      if (!userData) {
+        Alert.alert('Hata', 'Kullanıcı bulunamadı.');
+        return;
+      }
+  
+      const formData = new FormData();
+      formData.append('image', {
+        uri: selectedFile.uri,
+        name: 'photo.jpg',
+        type: 'image/jpeg',
+      });
+  
+      // console.log('Uploading file:', result.uri);
+      console.log('selected file: ', selectedFile)
       const response = await axios.post(
-        `http://${API_URL}:8000/api/add-meal-with-img`,
+        `http://${API_URL}:8000/api/add-meal-with-img-from-mobile`,
         formData,
         {
           headers: {
@@ -183,18 +211,21 @@ const handleUpload2 = async () => {
           },
         }
       );
+
+      console.log(response.data.response)
+      setCalFromService(response.data.response);
+
       Alert.alert('Başarılı', 'Yükleme tamamlandı!');
     } catch (error) {
-      if(error.status==501){
-        Alert.alert('Are you joking with me ? this is not a meal :) ')
-        return 
+      if (error?.response?.status === 501) {
+        Alert.alert('Are you joking with me ? this is not a meal :)');
+      } else {
+        console.error('Upload error:', error.response?.data || error.message);
+        Alert.alert('Hata', 'Yükleme başarısız.');
       }
-      console.error('Upload error:', error.response?.data || error.message);
-      Alert.alert('Hata', 'Yükleme başarısız.')
     }
   };
-
-
+  
 
 
 
@@ -279,7 +310,8 @@ const handleUpload2 = async () => {
           <Text style={styles.fileButtonText}>📂 Select File From Device</Text>
         </TouchableOpacity>
 
-        <TouchableOpacity style={styles.button} onPress={selectedFile ? handleUpload2 : handleUpload}>
+        {/* <TouchableOpacity style={styles.button} onPress={selectedFile ? handleUpload2 : handleUpload}> */}
+        <TouchableOpacity style={styles.button}onPress={uploadType === 2 ? handleUpload2 : uploadType === 1 ? handleUpload : () => { Alert.alert('Nothing selected !!'); }}>          
           <Text style={styles.buttonText}>⬆️ Yükle</Text>
         </TouchableOpacity>
       </View>
