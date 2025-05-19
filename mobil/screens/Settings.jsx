@@ -55,8 +55,15 @@ const saveChanges = async () => {
     });
 
     alert("Saved Success");
-    await AsyncStorage.setItem('user', JSON.stringify(response.data));
-    setUserData(response.data); // Güncel kullanıcı verisini tekrar set et
+    // await AsyncStorage.setItem('user', JSON.stringify(response.data));
+    let oldToken = userData.token;
+    let newUser = response.data.user;
+    const updatedUserObject = {
+      token: oldToken,
+      user: newUser
+    };
+    await AsyncStorage.setItem('user', JSON.stringify(updatedUserObject));
+    setUserData(updatedUserObject); // Güncel kullanıcı verisini tekrar set et
   } catch (error) {
     console.error("Veri kaydedilirken hata:", error);
     alert("Kaydetme işlemi başarısız oldu.");
@@ -114,11 +121,13 @@ const saveChanges = async () => {
       <Input editable={isEditing} isIcon={true} placeholder={"Email"} unVisible={false} placeholderTextColor={"#b0b0b0"} value={username} valueSet={setUsername} iconName={"person"} >
       </Input>
 
-      <Input isIcon={true} placeholder={"Email"} unVisible={false} placeholderTextColor={"#b0b0b0"} value={email} valueSet={setEmail} iconName={"person"} >
-      </Input>
-      <Input isIcon={true} placeholder={"Email"} unVisible={false} placeholderTextColor={"#b0b0b0"} value={password} valueSet={setPassword} iconName={"person"} >
+      <Input editable={false} isIcon={true} placeholder={"Email"} unVisible={false} placeholderTextColor={"#b0b0b0"} value={email} valueSet={setEmail} iconName={"person"} >
       </Input>
 
+
+
+
+   
       <View style={styles.buttonContainer}>
         <Button text={isEditing ? "Save" : "Edit"}
           color={isEditing ? "#4CAF50" : "#54D098"}

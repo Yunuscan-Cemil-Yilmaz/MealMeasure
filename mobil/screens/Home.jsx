@@ -16,8 +16,9 @@ import { Camera } from 'expo-camera';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import { API_URL } from '../Utils';
+import Ionicons from '@expo/vector-icons/Ionicons'; // veya 'react-native-vector-icons/Ionicons'
 
-const Home = () => {
+const Home = ({navigation}) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [hasCameraPermission, setHasCameraPermission] = useState(null);
   const [selectedPhoto, setSelectedPhoto] = useState(null);
@@ -282,6 +283,7 @@ const Home = () => {
       Alert.alert('Hata', 'Kullanıcı bulunamadı.');
       return;
     }
+    let token = userData.token
 
     const data = {
       cal_value: calFromService
@@ -294,7 +296,7 @@ const Home = () => {
         data,
         {
           headers: {
-            'auth_token': userData.token || '',
+            'auth_token': userData.token|| '',
             'sender_id': String(userData.user.user_id),
             'sender_email': String(userData.user.user_email),
           },
@@ -311,12 +313,17 @@ const Home = () => {
     }
   };
 
-
+  const goToSettings = () => {
+    navigation.navigate('Settings'); // ya da props ile yönlendiriyorsan props.navigation.navigate
+  };
   return (
     <SafeAreaView style={styles.container}>
+        <TouchableOpacity onPress={goToSettings} style={{alignItems:"flex-end"}}>
+        <Ionicons name="settings-outline" size={24} color="white" />
+      </TouchableOpacity>
       <View style={styles.headerContainer}>
         <Text style={styles.header}>Calculate Calorie</Text>
-      </View>
+      </View> 
 
       <Calendar
         style={styles.calendar}

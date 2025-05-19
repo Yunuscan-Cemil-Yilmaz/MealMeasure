@@ -48,7 +48,7 @@ const Insight = ({ navigation }) => {
             );
 
 
-            navigation.navigate("Settings");
+            navigation.navigate("Home");
         } catch (error) {
             console.error("İnsight Failed:", error.response?.data || error.message);
             const message = error.response?.data?.message || "İnsight failed!";
