@@ -70,7 +70,9 @@ def estimate_volume(depth, pixel_to_cm, depth_scale, mask):
     h_food = np.clip(h_cm * mask, 0, None)
     base_vol = float(np.sum(h_food) * (pixel_to_cm ** 2))
     cf = 250.0 if base_vol < 15.0 else 1.0
-    return base_vol * cf
+    vol = base_vol * cf
+    if vol > 1000: vol / 10
+    return vol
 
 def detect_volume_from_stream(file_stream, filename="tmp.jpg"):
 

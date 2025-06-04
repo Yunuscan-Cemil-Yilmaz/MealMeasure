@@ -91,9 +91,11 @@ def estimate_volume(depth: np.ndarray, pixel_to_cm: float, depth_scale: float, m
     h_food = np.clip(h_cm * mask, 0, None)
     base_vol = float(np.sum(h_food) * (pixel_to_cm ** 2))
     CONVERSION_FACTOR = 1.0
-    if base_vol < 15.0:
+    if base_vol < 10.0:
         CONVERSION_FACTOR = 250.0
     vol = base_vol * CONVERSION_FACTOR
+    if(vol > 1000): 
+        vol = vol / 10
     return vol
 
 

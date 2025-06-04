@@ -79,6 +79,8 @@ def estimate_volume(depth: np.ndarray, pixel_to_cm: float, depth_scale: float, m
     if base_vol < 15.0:
         CONVERSION_FACTOR = 200.0
     vol = base_vol * CONVERSION_FACTOR
+    if vol > 1000: 
+        vol = vol / 10
     return vol
 
 

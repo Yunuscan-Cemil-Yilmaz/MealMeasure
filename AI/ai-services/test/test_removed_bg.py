@@ -4,8 +4,8 @@ from rembg import remove
 from PIL import Image
 
 # Klasör tanımlamaları
-INPUT_FOLDER = "test/images"
-OUTPUT_FOLDER = "test/removed_bg"
+INPUT_FOLDER = "images/"
+OUTPUT_FOLDER = "removed_bg/"
 
 # Klasör varsa sil ve yeniden oluştur
 if os.path.exists(OUTPUT_FOLDER):
